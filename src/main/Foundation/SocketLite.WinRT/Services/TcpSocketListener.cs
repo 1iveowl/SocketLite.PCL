@@ -36,7 +36,7 @@ namespace SocketLite.Services
             ConnectionReceived?.Invoke(this, eventArgs);
         }
 
-        public async Task StartListeningAsync(int port, ICommunicationEntity communicationEntity)
+        public async Task StartListeningAsync(int port, ICommunicationEntity communicationEntity = null)
         {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationEntity);

@@ -10,7 +10,7 @@ using static SocketLite.Helper.Helper;
 
 namespace SocketLite.Services
 {
-    public class UdpSocketMultiCastClient : UdpSocketBase, IUdpSocketMulticastClient
+    public class UdpSocketMulticastClient : UdpSocketBase, IUdpSocketMulticastClient
     {
         public int TTL { get; set; }
 

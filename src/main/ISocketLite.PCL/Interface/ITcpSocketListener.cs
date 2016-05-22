@@ -9,7 +9,7 @@ namespace ISocketLite.PCL.Interface
 {
     public interface ITcpSocketListener
     {
-        Task StartListeningAsync(int port, ICommunicationEntity communicationEntity);
+        Task StartListeningAsync(int port, ICommunicationEntity communicationEntity = null);
 
         void StopListening();
 
