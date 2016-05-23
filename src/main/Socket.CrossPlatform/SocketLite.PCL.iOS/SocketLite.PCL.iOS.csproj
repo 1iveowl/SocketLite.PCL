@@ -44,6 +44,10 @@
       <HintPath>..\..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
@@ -58,14 +62,20 @@
     <Compile Include="..\..\Foundation\SocketLite.NET\Extensions\NetworkExtensions.cs">
       <Link>Extensions\NetworkExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.NET\Model\CommunicationEntity.cs">
-      <Link>Model\CommunicationEntity.cs</Link>
+    <Compile Include="..\..\Foundation\SocketLite.NET\Model\CommunicationInterface.cs">
+      <Link>Model\CommunicationInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.NET\Model\UdpMessage.cs">
+      <Link>Model\UdpMessage.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.NET\Services\Base\CommonSocketBase.cs">
       <Link>Services\Base\CommonSocketBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.NET\Services\Base\TcpSocketBase.cs">
       <Link>Services\Base\TcpSocketBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.NET\Services\Base\UdpSendBase.cs">
+      <Link>Services\Base\UdpSendBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.NET\Services\Base\UdpSocketBase.cs">
       <Link>Services\Base\UdpSocketBase.cs</Link>
@@ -88,7 +98,7 @@
     <Compile Include="Model\iOS\NetInfo.cs" />
     <Compile Include="Model\iOS\NetInterfaceInfo.cs" />
     <Compile Include="Model\iOS\StructAndEnums.cs" />
-    <Compile Include="Model\Partial\CommunicationEntity.Native.Partial.cs" />
+    <Compile Include="Model\Partial\CommunicationInterface.Native.Partial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

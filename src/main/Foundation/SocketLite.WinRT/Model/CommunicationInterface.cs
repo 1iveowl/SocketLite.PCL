@@ -7,7 +7,7 @@ using ISocketLite.PCL.Model;
 namespace SocketLite.Model
 {
 
-    public class CommunicationEntity : ICommunicationEntity
+    public class CommunicationInterface : ICommunicationInterface
     {
 
         public string NativeInterfaceId { get; internal set; }

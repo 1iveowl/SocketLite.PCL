@@ -33,6 +33,10 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
-        
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

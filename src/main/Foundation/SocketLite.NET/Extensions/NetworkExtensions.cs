@@ -2,15 +2,15 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using ISocketLite.PCL.Model;
-using CommunicationEntity = SocketLite.Model.CommunicationEntity;
+using CommunicationInterface = SocketLite.Model.CommunicationInterface;
 
 namespace SocketLite.Extensions
 {
     public static class NetworkExtensions
     {
-        public static CommunicationEntity ToCommsInterfaceSummary(this NetworkInterface nativeInterface)
+        public static CommunicationInterface ToCommsInterfaceSummary(this NetworkInterface nativeInterface)
         {
-            return CommunicationEntity.FromNativeInterface(nativeInterface);
+            return CommunicationInterface.FromNativeInterface(nativeInterface);
         }
 
         public static CommunicationConnectionStatus ToCommsInterfaceStatus(this OperationalStatus nativeStatus)

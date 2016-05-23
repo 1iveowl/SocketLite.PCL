@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
@@ -14,8 +15,9 @@ namespace SocketLite.Services
     {
         public int TTL { get; set; }
 
-        public event EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived;
-        public Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationEntity communicationEntity)
+        public ISubject<IUdpMessage> ObservableMessages { get; } = null;
+
+        public Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface communicationInterface)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
@@ -31,6 +33,11 @@ namespace SocketLite.Services
         }
 
         public Task SendMulticastAsync(byte[] data, int length)
+        {
+            throw new NotImplementedException(BaitNoSwitch);
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

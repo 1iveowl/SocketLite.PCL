@@ -10,7 +10,7 @@ namespace SocketLite.Services.Base
 {
     public abstract class CommonSocketBase
     {
-        protected void CheckCommunicationInterface(ICommunicationEntity communicationEntity)
+        protected void CheckCommunicationInterface(ICommunicationInterface communicationInterface)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

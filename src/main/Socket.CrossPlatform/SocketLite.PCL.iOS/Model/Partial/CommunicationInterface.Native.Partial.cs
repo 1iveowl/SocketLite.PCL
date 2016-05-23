@@ -8,7 +8,7 @@ using SocketLite.Model.iOS;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationEntity
+    public partial class CommunicationInterface
     {
         protected static IPAddress GetSubnetMask(UnicastIPAddressInformation ip)
         {

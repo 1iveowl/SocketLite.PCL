@@ -29,12 +29,11 @@ namespace SocketLite.Services
             }
         }
 
-        public Task ConnectAsync(string address, int port)
+        public async Task ConnectAsync(string address, int port)
         {
             _messageCanceller = new CancellationTokenSource();
 
-            return Task
-                .Run(() => this.BackingUdpClient.Connect(address, port))
+            await Task.Run(() => BackingUdpClient.Connect(address, port), _messageCanceller.Token)
                 .WrapNativeSocketExceptions();
         }
 

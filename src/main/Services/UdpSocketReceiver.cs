@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
@@ -12,13 +13,19 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
-        public event EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived;
-        public Task StartListeningAsync(int port, ICommunicationEntity communicationEntity)
+        public ISubject<IUdpMessage> ObservableMessages { get; } = null;
+
+        public Task StartListeningAsync(int port, ICommunicationInterface communicationInterface)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
 
         public void StopListening()
+        {
+            throw new NotImplementedException(BaitNoSwitch);
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

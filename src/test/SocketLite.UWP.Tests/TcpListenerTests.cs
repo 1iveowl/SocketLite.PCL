@@ -15,25 +15,25 @@ namespace SocketLite.UWP.Tests
         public async Task TestMethod1()
         {
             //Arrange
-            _tcpListener.ConnectionReceived += async (sender, args) =>
-            {
-                var client = args.SocketClient;
+            //_tcpListener.ConnectionReceived += async (sender, args) =>
+            //{
+            //    var client = args.SocketClient;
 
-                while (true)
-                {
-                    // read from the 'ReadStream' property of the socket client to receive data
-                    var nextByte = await Task.Run(() => client.ReadStream.ReadByte());
-                    Debug.Write(nextByte);
-                }
-            };
+            //    while (true)
+            //    {
+            //        // read from the 'ReadStream' property of the socket client to receive data
+            //        var nextByte = await Task.Run(() => client.ReadStream.ReadByte());
+            //        Debug.Write(nextByte);
+            //    }
+            //};
 
             //Act
-            await _tcpListener.StartListeningAsync(8000);
+            //await _tcpListener.StartListeningAsync(8000);
 
-            await Task.Delay(TimeSpan.FromMinutes(1));
-            //Assert
+            //await Task.Delay(TimeSpan.FromMinutes(1));
+            ////Assert
 
-            Assert.AreEqual(true, true);
+            //Assert.AreEqual(true, true);
         }
     }
 }

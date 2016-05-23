@@ -9,9 +9,9 @@ namespace SocketLite.Services.Base
 {
     public abstract class CommonSocketBase
     {
-        protected void CheckCommunicationInterface(ICommunicationEntity communicationEntity)
+        protected void CheckCommunicationInterface(ICommunicationInterface communicationInterface)
         {
-            if (communicationEntity != null && !communicationEntity.IsUsable)
+            if (communicationInterface != null && !communicationInterface.IsUsable)
             {
                 throw new InvalidOperationException("Cannot listen on an unusable communication interface.");
             }

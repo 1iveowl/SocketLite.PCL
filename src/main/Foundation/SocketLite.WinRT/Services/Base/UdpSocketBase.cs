@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq.Expressions;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
@@ -9,92 +11,88 @@ using SocketLite.Model;
 
 namespace SocketLite.Services.Base
 {
-    public abstract class UdpSocketBase : CommonSocketBase
+    public abstract class UdpSocketBase : UdpSendBase
     {
-
-        protected DatagramSocket BackingDatagramSocket;
-
-        public event EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived;
-
+        public ISubject<IUdpMessage> ObservableMessages { get; private set; } = new Subject<IUdpMessage>();
 
         protected UdpSocketBase()
         {
-            SetBackingSocket();
+            InitializeSocket();
         }
 
-        public virtual async Task SendAsync(byte[] data)
+        protected async Task BindeUdpServiceNameAsync(ICommunicationInterface communicationInterface, string serviceName)
         {
-            await SendAsync(data, data.Length);
-        }
+            
+            var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
 
-        public virtual async Task SendAsync(byte[] data, int length)
-        {
-            var stream = BackingDatagramSocket.OutputStream.AsStreamForWrite();
-
-            await stream.WriteAsync(data, 0, data.Length);
-            await stream.FlushAsync();
-        }
-
-        public virtual async Task SendToAsync(byte[] data, string address, int port)
-        {
-            await SendToAsync(data, data.Length, address, port);
-        }
-
-        public virtual async Task SendToAsync(byte[] data, int length, string address, int port)
-        {
-            var hostName = new HostName(address);
-            var serviceName = port.ToString();
-
-            var stream = (await BackingDatagramSocket.GetOutputStreamAsync(hostName, serviceName))
-                            .AsStreamForWrite();
-
-            await stream.WriteAsync(data, 0, length);
-            await stream.FlushAsync();
-        }
-
-        internal void DatagramMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
-        {
-            var remoteAddress = args.RemoteAddress.CanonicalName;
-            var remotePort = args.RemotePort;
-            byte[] allBytes;
-
-            var stream = args.GetDataStream().AsStreamForRead();
-            using (var memoryStream = new MemoryStream())
+            if (adapter != null)
             {
-                stream.CopyTo(memoryStream);
-                allBytes = memoryStream.ToArray();
-            }
-
-            var wrapperArgs = new UdpSocketMessageReceivedEventArgs(remoteAddress, remotePort, allBytes);
-
-            MessageReceived?.Invoke(this, wrapperArgs);
-        }
-
-        internal void CloseSocket()
-        {
-            BackingDatagramSocket.Dispose();
-            SetBackingSocket();
-        }
-
-        protected async Task BindeUdpServiceNameAsync(ICommunicationEntity communicationEntity, string serviceName)
-        {
-            if (communicationEntity != null)
-            {
-                var adapter = ((CommunicationEntity)communicationEntity).NativeNetworkAdapter;
-                await BackingDatagramSocket.BindServiceNameAsync(serviceName, adapter);
+                await DatagramSocket.BindServiceNameAsync(serviceName, adapter);
             }
             else
             {
-                await BackingDatagramSocket.BindServiceNameAsync(serviceName);
+                await DatagramSocket.BindServiceNameAsync(serviceName);
             }
         }
 
-        private void SetBackingSocket()
+        protected void DatagramMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
         {
-            var socket = new DatagramSocket();
-            socket.MessageReceived += DatagramMessageReceived;
+            try
+            {
+                var remoteAddress = args.RemoteAddress.CanonicalName;
+                var remotePort = args.RemotePort;
+                byte[] allBytes;
 
-            BackingDatagramSocket = socket;
+                var stream = args.GetDataStream().AsStreamForRead();
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    allBytes = memoryStream.ToArray();
+                }
+
+                var udpMessage = new UdpMessage
+                {
+                    ByteData = allBytes,
+                    RemoteAddress = remoteAddress,
+                    RemotePort = remotePort
+                };
+
+                ObservableMessages.OnNext(udpMessage);
+            }
+            catch (Exception ex)
+            {
+                ObservableMessages.OnError(ex);
+            }
+        }
+
+        protected void CloseSocket()
+        {
+            DatagramSocket.MessageReceived -= DatagramMessageReceived;
+            DatagramSocket.Dispose();
+            InitializeSocket();
+        }
+
+        private void InitializeSocket()
+        {
+            var socket = new DatagramSocket
+            {
+#if WINDOWS_UWP
+                Control =
+                {
+                    MulticastOnly = true,
+                }
+#endif
+            };
+
+            socket.MessageReceived += DatagramMessageReceived;
+            DatagramSocket = socket;
+        }
+
+        public void Dispose()
+        {
+            ObservableMessages.OnCompleted();
+            DatagramSocket.MessageReceived -= DatagramMessageReceived;
+            DatagramSocket.Dispose();
         }
     }
 }

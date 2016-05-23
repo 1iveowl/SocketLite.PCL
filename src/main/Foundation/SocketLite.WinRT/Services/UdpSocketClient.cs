@@ -13,7 +13,7 @@ namespace SocketLite.Services
             var hostName = new HostName(address);
             var serviceName = port.ToString();
 
-            await BackingDatagramSocket.ConnectAsync(hostName, serviceName);
+            await DatagramSocket.ConnectAsync(hostName, serviceName);
         }
 
         public void Disconnect()

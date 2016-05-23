@@ -56,6 +56,11 @@ namespace SocketLite.Services
             Socket.Dispose();
             Socket = new StreamSocket();
         }
+
+        public void Dispose()
+        {
+            
+        }
         
     }
 }

@@ -46,10 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NetworkExtensions.cs" />
+    <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Services\Base\CommonSocketBase.cs" />
     <Compile Include="Services\Base\TcpSocketBase.cs" />
+    <Compile Include="Services\Base\UdpSendBase.cs" />
     <Compile Include="Services\Base\UdpSocketBase.cs" />
-    <Compile Include="Model\CommunicationEntity.cs" />
+    <Compile Include="Model\CommunicationInterface.cs" />
     <Compile Include="Services\TcpSocketClient.cs" />
     <Compile Include="Services\UdpSocketClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

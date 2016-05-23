@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using ISocketLite.PCL.EventArgs;
@@ -11,13 +12,11 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
+        public ISubject<ITcpSocketClient> ObservableTcpSocket { get; } = new Subject<ITcpSocketClient>();
 
-        private StreamSocketListener _backingStreamSocketListener;
-
-        public event EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived;
+        private StreamSocketListener _streamSocketListener;
 
         public int LocalPort { get; internal set; }
-
 
         public TcpSocketListener() : base(bufferSize:0)
         {
@@ -27,41 +26,54 @@ namespace SocketLite.Services
         {
         }
 
-        public void OnConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs e)
-        {
-            var nativeSocket = e.Socket;
-            var wrappedSocket = new TcpSocketClient(nativeSocket, BufferSize);
-
-            var eventArgs = new TcpSocketListenerConnectEventArgs(wrappedSocket);
-            ConnectionReceived?.Invoke(this, eventArgs);
-        }
-
-        public async Task StartListeningAsync(int port, ICommunicationEntity communicationEntity = null)
+        public async Task StartListeningAsync(int port, ICommunicationInterface communicationInterface = null)
         {
             //Throws and exception if the communication interface is not ready og valid.
-            CheckCommunicationInterface(communicationEntity);
+            CheckCommunicationInterface(communicationInterface);
 
-            _backingStreamSocketListener = new StreamSocketListener();
+            _streamSocketListener = new StreamSocketListener();
 
-            _backingStreamSocketListener.ConnectionReceived += OnConnectionReceived;
+            _streamSocketListener.ConnectionReceived += OnConnectionReceived;
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
-            if (communicationEntity != null)
-            {
-                var adapter = ((CommunicationEntity)communicationEntity).NativeNetworkAdapter;
+            var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
 
-                await _backingStreamSocketListener.BindServiceNameAsync(
+            if (adapter != null)
+            {
+                await _streamSocketListener.BindServiceNameAsync(
                     localServiceName, SocketProtectionLevel.PlainSocket, 
                     adapter);
             }
             else
-                await _backingStreamSocketListener.BindServiceNameAsync(localServiceName);
+                await _streamSocketListener.BindServiceNameAsync(localServiceName);
+        }
+
+        public void OnConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs e)
+        {
+            try
+            {
+                var nativeSocket = e.Socket;
+
+                ObservableTcpSocket.OnNext(new TcpSocketClient(nativeSocket, BufferSize));
+            }
+            catch (Exception ex)
+            {
+                ObservableTcpSocket.OnError(ex);
+            }
         }
 
         public void StopListening()
         {
-            _backingStreamSocketListener.Dispose();
+            _streamSocketListener.ConnectionReceived -= OnConnectionReceived;
+            _streamSocketListener.Dispose();
+        }
+
+        public void Dispose()
+        {
+            _streamSocketListener.ConnectionReceived -= OnConnectionReceived;
+            _streamSocketListener.Dispose();
+            ObservableTcpSocket.OnCompleted();
         }
     }
 }

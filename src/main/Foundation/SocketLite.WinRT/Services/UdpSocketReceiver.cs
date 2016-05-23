@@ -11,18 +11,20 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
-        public async Task StartListeningAsync(int port = 0, ICommunicationEntity communicationEntity = null)
+        public async Task StartListeningAsync(int port = 0, ICommunicationInterface communicationInterface = null)
         {
-            CheckCommunicationInterface(communicationEntity);
+            CheckCommunicationInterface(communicationInterface);
 
             var serviceName = port == 0 ? "" : port.ToString();
 
-            await BindeUdpServiceNameAsync(communicationEntity, serviceName);
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName);
         }
 
         public void StopListening()
         {
             CloseSocket();
         }
+
+        
     }
 }

@@ -110,14 +110,20 @@
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Extensions\NetworkExtensions.cs">
       <Link>Extensions\NetworkExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.WinRT\Model\CommunicationEntity.cs">
-      <Link>Model\CommunicationEntity.cs</Link>
+    <Compile Include="..\..\Foundation\SocketLite.WinRT\Model\CommunicationInterface.cs">
+      <Link>Model\CommunicationInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.WinRT\Model\UdpMessage.cs">
+      <Link>Model\UdpMessage.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Services\Base\CommonSocketBase.cs">
       <Link>Services\Base\CommonSocketBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Services\Base\TcpSocketBase.cs">
       <Link>Services\Base\TcpSocketBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.WinRT\Services\Base\UdpSendBase.cs">
+      <Link>Services\Base\UdpSendBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Services\Base\UdpSocketBase.cs">
       <Link>Services\Base\UdpSocketBase.cs</Link>

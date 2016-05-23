@@ -5,10 +5,11 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using ISocketLite.PCL.Interface;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationEntity
+    public partial class CommunicationInterface : ICommunicationInterface
     {
         protected static IPAddress GetSubnetMask(UnicastIPAddressInformation ip)
         {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking;
+using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Model;
 using SocketLite.Services.Base;
@@ -17,21 +19,26 @@ namespace SocketLite.Services
 
         public int TTL { get; set; } = 1;
 
-        public async Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationEntity communicationEntity = null)
+        public UdpSocketMulticastClient()
+        {
+            
+        }
+
+        public async Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface communicationInterface = null)
         {
             //Throws and exception if the communication interface is not ready og valid.
-            CheckCommunicationInterface(communicationEntity);
+            CheckCommunicationInterface(communicationInterface);
 
             var hostName = new HostName(multicastAddress);
             var serviceName = port.ToString();
 
-#if WINDOWS_UWP
-            BackingDatagramSocket.Control.MulticastOnly = true;
-#endif
-            await BindeUdpServiceNameAsync(communicationEntity, serviceName);
+//#if WINDOWS_UWP
+//            DatagramSocket.Control.MulticastOnly = true;
+//#endif
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName);
 
-            BackingDatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;
-            BackingDatagramSocket.JoinMulticastGroup(hostName);
+            DatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;
+            DatagramSocket.JoinMulticastGroup(hostName);
 
             _multicastAddress = multicastAddress;
             _multicastPort = port;

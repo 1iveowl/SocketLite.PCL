@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
@@ -12,11 +13,10 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        public event EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived;
-
+        public ISubject<ITcpSocketClient> ObservableTcpSocket { get; } = null;
         public int LocalPort => 0;
 
-        public Task StartListeningAsync(int port, ICommunicationEntity communicationEntity)
+        public Task StartListeningAsync(int port, ICommunicationInterface communicationInterface)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
@@ -24,6 +24,11 @@ namespace SocketLite.Services
         public void StopListening()
         {
             throw new NotImplementedException(BaitNoSwitch);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

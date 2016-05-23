@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ISocketLite.PCL.Interface
 {
-    public interface ITcpSocketClient
+    public interface ITcpSocketClient : IDisposable
     {
-        //Task ConnectAsync(string address, int port, bool secure = false);
-
         Task ConnectAsync(
             string address, 
             string service, 

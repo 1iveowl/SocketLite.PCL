@@ -58,12 +58,14 @@
   <ItemGroup>
     <Compile Include="Extensions\NativeExceptionExtensions.cs" />
     <Compile Include="Extensions\NetworkExtensions.cs" />
-    <Compile Include="Model\CommunicationEntity.cs" />
-    <Compile Include="Model\Partial\CommunicationEntity.Native.Partial.cs" />
+    <Compile Include="Model\CommunicationInterface.cs" />
+    <Compile Include="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+    <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Base\CommonSocketBase.cs" />
     <Compile Include="Services\Base\TcpSocketBase.cs" />
     <Compile Include="Services\Base\UdpSocketBase.cs" />
+    <Compile Include="Services\Base\UdpSendBase.cs" />
     <Compile Include="Services\TcpSocketClient.cs" />
     <Compile Include="Services\TcpSocketListener.cs" />
     <Compile Include="Services\UdpSocketClient.cs" />

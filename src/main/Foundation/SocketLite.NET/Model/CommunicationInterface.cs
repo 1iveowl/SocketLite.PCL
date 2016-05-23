@@ -8,7 +8,7 @@ using SocketLite.Extensions;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationEntity : ICommunicationEntity
+    public partial class CommunicationInterface : ICommunicationInterface
     {
         public string NativeInterfaceId { get; internal set; }
 
@@ -37,7 +37,7 @@ namespace SocketLite.Model
             return new IPEndPoint(NativeIpAddress, port);
         }
 
-        internal static CommunicationEntity FromNativeInterface(NetworkInterface nativeInterface)
+        internal static CommunicationInterface FromNativeInterface(NetworkInterface nativeInterface)
         {
             var ip =
                 nativeInterface
@@ -53,11 +53,11 @@ namespace SocketLite.Model
                     .Select(a => a.Address.ToString())
                     .FirstOrDefault();
 
-            var netmask = ip != null ? CommunicationEntity.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
+            var netmask = ip != null ? CommunicationInterface.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
 
             var broadcast = (ip != null && netmask != null) ? ip.Address.GetBroadcastAddress(netmask).ToString() : null;
 
-            return new CommunicationEntity
+            return new CommunicationInterface
             {
                 NativeInterfaceId = nativeInterface.Id,
                 NativeIpAddress = ip?.Address,

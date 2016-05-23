@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 
 namespace ISocketLite.PCL.Interface
 {
-    public interface ITcpSocketListener
+    public interface ITcpSocketListener : IDisposable
     {
-        Task StartListeningAsync(int port, ICommunicationEntity communicationEntity = null);
+        //event EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived;
+        ISubject<ITcpSocketClient> ObservableTcpSocket { get; }
+
+        Task StartListeningAsync(int port, ICommunicationInterface communicationEntity = null);
 
         void StopListening();
 
         int LocalPort { get; }
-
-        event EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived;
+        
     }
 }

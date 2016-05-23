@@ -36,13 +36,11 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Folder Include="Extensions\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventArgs\TcpSocketListenerConnectEventArgs.cs" />
-    <Compile Include="EventArgs\UdpSocketMessageReceivedEventArgs.cs" />
+    <Compile Include="Interface\IUdpMessage.cs" />
     <Compile Include="Exceptions\SocketExceptions.cs" />
-    <Compile Include="Interface\ICommunicationEntity.cs" />
+    <Compile Include="Interface\ICommunicationInterface.cs" />
     <Compile Include="Interface\IExposeBackingSocket.cs" />
     <Compile Include="Interface\ITcpSocketClient.cs" />
     <Compile Include="Interface\ITcpSocketListener.cs" />
