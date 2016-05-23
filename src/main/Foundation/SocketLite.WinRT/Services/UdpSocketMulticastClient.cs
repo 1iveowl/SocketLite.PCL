@@ -35,7 +35,8 @@ namespace SocketLite.Services
 //#if WINDOWS_UWP
 //            DatagramSocket.Control.MulticastOnly = true;
 //#endif
-            await BindeUdpServiceNameAsync(communicationInterface, serviceName);
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName)
+                .ConfigureAwait(false);
 
             DatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;
             DatagramSocket.JoinMulticastGroup(hostName);
@@ -46,7 +47,7 @@ namespace SocketLite.Services
 
         public async Task SendMulticastAsync(byte[] data)
         {
-            await SendMulticastAsync(data, data.Length);
+            await SendMulticastAsync(data, data.Length).ConfigureAwait(false);
         }
 
         public async Task SendMulticastAsync(byte[] data, int length)
@@ -54,7 +55,8 @@ namespace SocketLite.Services
             if (_multicastAddress == null)
                 throw new InvalidOperationException("Must join a multicast group before sending.");
 
-            await base.SendToAsync(data, _multicastAddress, _multicastPort);
+            await base.SendToAsync(data, _multicastAddress, _multicastPort)
+                .ConfigureAwait(false);
         }
 
         public void Disconnect()

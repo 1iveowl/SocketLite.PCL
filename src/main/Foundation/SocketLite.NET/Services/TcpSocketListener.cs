@@ -53,7 +53,7 @@ namespace SocketLite.Services
                 throw new PclSocketException(ex);
             }
 
-            await Task.Run(() => WaitForConnections(_listenCanceller.Token));
+            await Task.Run(() => WaitForConnections(_listenCanceller.Token)).ConfigureAwait(false);
         }
 
         public void StopListening()

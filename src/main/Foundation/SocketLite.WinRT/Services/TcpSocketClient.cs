@@ -39,7 +39,7 @@ namespace SocketLite.Services
         public async Task ConnectAsync(string address, int port, bool secure = false)
         {
             var service = port.ToString();
-            await ConnectAsync(address, service, secure);
+            await ConnectAsync(address, service, secure).ConfigureAwait(false);
         }
 
         public async Task ConnectAsync(string address, string service, bool secure = false, CancellationToken cancellationToken = default(CancellationToken))

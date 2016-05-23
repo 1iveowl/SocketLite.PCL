@@ -15,20 +15,20 @@ namespace SocketLite.Services.Base
 
         public virtual async Task SendAsync(byte[] data)
         {
-            await SendAsync(data, data.Length);
+            await SendAsync(data, data.Length).ConfigureAwait(false);
         }
 
         public virtual async Task SendAsync(byte[] data, int length)
         {
             var stream = DatagramSocket.OutputStream.AsStreamForWrite();
 
-            await stream.WriteAsync(data, 0, data.Length);
-            await stream.FlushAsync();
+            await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+            await stream.FlushAsync().ConfigureAwait(false);
         }
 
         public virtual async Task SendToAsync(byte[] data, string address, int port)
         {
-            await SendToAsync(data, data.Length, address, port);
+            await SendToAsync(data, data.Length, address, port).ConfigureAwait(false);
         }
 
         public virtual async Task SendToAsync(byte[] data, int length, string address, int port)
@@ -39,8 +39,8 @@ namespace SocketLite.Services.Base
             var stream = (await DatagramSocket.GetOutputStreamAsync(hostName, serviceName))
                             .AsStreamForWrite();
 
-            await stream.WriteAsync(data, 0, length);
-            await stream.FlushAsync();
+            await stream.WriteAsync(data, 0, length).ConfigureAwait(false);
+            await stream.FlushAsync().ConfigureAwait(false);
         }
     }
 }

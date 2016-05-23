@@ -65,7 +65,7 @@ namespace SocketLite.Services
             _multicastAddress = multicastAddress;
             _multicastPort = port;
 
-            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token));
+            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token)).ConfigureAwait(false);
         }
 
         public void Disconnect()
@@ -79,7 +79,7 @@ namespace SocketLite.Services
 
         public async Task SendMulticastAsync(byte[] data)
         {
-            await SendMulticastAsync(data, data.Length);
+            await SendMulticastAsync(data, data.Length).ConfigureAwait(false);
         }
 
         public async Task SendMulticastAsync(byte[] data, int length)
@@ -87,7 +87,7 @@ namespace SocketLite.Services
             if (_multicastAddress == null)
                 throw new InvalidOperationException("Must join a multicast group before sending.");
 
-            await base.SendToAsync(data, length, _multicastAddress, _multicastPort);
+            await base.SendToAsync(data, length, _multicastAddress, _multicastPort).ConfigureAwait(false);
         }
     }
 }

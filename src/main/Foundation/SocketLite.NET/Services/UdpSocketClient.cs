@@ -34,7 +34,8 @@ namespace SocketLite.Services
             _messageCanceller = new CancellationTokenSource();
 
             await Task.Run(() => BackingUdpClient.Connect(address, port), _messageCanceller.Token)
-                .WrapNativeSocketExceptions();
+                .WrapNativeSocketExceptions()
+                .ConfigureAwait(false);
         }
 
         public void Disconnect()

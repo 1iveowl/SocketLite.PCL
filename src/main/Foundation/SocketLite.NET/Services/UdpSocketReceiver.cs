@@ -29,7 +29,8 @@ namespace SocketLite.Services
                 EnableBroadcast = true
             };
 
-            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token));
+            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token))
+                .ConfigureAwait(false);
         }
 
         public void StopListening()
@@ -56,7 +57,7 @@ namespace SocketLite.Services
             }
             else
             {
-                await base.SendToAsync(data, length, address, port);
+                await base.SendToAsync(data, length, address, port).ConfigureAwait(false);
             }
         }
     }

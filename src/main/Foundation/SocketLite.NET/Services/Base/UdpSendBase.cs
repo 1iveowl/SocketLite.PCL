@@ -16,28 +16,32 @@ namespace SocketLite.Services.Base
         {
             await BackingUdpClient
                 .SendAsync(data, data.Length)
-                .WrapNativeSocketExceptions();
+                .WrapNativeSocketExceptions()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task SendAsync(byte[] data, int length)
         {
             await BackingUdpClient
                 .SendAsync(data, length)
-                .WrapNativeSocketExceptions();
+                .WrapNativeSocketExceptions()
+                .ConfigureAwait(false);
         }
 
         public virtual async Task SendToAsync(byte[] data, string address, int port)
         {
             await BackingUdpClient
                .SendAsync(data, data.Length, address, port)
-               .WrapNativeSocketExceptions();
+               .WrapNativeSocketExceptions()
+               .ConfigureAwait(false);
         }
 
         public virtual async Task SendToAsync(byte[] data, int length, string address, int port)
         {
             await BackingUdpClient
                 .SendAsync(data, length, address, port)
-                .WrapNativeSocketExceptions();
+                .WrapNativeSocketExceptions()
+                .ConfigureAwait(false);
         }
 
 

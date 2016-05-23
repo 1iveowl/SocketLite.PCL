@@ -112,7 +112,7 @@ namespace SocketLite.Services
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var port = ServiceNames.PortForTcpServiceName(service);
-            await ConnectAsync(address, port, secure, cancellationToken);
+            await ConnectAsync(address, port, secure, cancellationToken).ConfigureAwait(false);
         }
 
         public void Disconnect()

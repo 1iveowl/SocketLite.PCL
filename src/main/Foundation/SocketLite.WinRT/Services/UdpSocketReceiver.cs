@@ -17,7 +17,8 @@ namespace SocketLite.Services
 
             var serviceName = port == 0 ? "" : port.ToString();
 
-            await BindeUdpServiceNameAsync(communicationInterface, serviceName);
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName)
+                .ConfigureAwait(false);
         }
 
         public void StopListening()
