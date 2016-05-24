@@ -24,7 +24,11 @@ namespace SocketLite.Services
             
         }
 
-        public async Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface communicationInterface = null)
+        public async Task JoinMulticastGroupAsync(
+            string multicastAddress, 
+            int port, 
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
         {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);
@@ -35,7 +39,7 @@ namespace SocketLite.Services
 //#if WINDOWS_UWP
 //            DatagramSocket.Control.MulticastOnly = true;
 //#endif
-            await BindeUdpServiceNameAsync(communicationInterface, serviceName)
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName, allowMultipleBindToSamePort)
                 .ConfigureAwait(false);
 
             DatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;

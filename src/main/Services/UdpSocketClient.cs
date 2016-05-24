@@ -14,9 +14,9 @@ namespace SocketLite.Services
 {
     public class UdpSocketClient : UdpSocketBase, IUdpSocketClient
     {
-        public ISubject<IUdpMessage> ObservableMessages { get; } = null;
+        public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
-        public Task ConnectAsync(string address, int port)
+        public Task ConnectAsync(string address, int port, bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

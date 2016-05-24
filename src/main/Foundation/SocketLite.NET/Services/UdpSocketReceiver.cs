@@ -15,19 +15,19 @@ namespace SocketLite.Services
     {
         private CancellationTokenSource _messageCanceller;
 
-        public async Task StartListeningAsync(int port = 0, ICommunicationInterface communicationInterface = null)
+        public async Task StartListeningAsync(
+            int port = 0, 
+            ICommunicationInterface communicationInterface = null, 
+            bool allowMultipleBindToSamePort = false)
         {
             CheckCommunicationInterface(communicationInterface);
 
-            var ip = communicationInterface != null ? ((CommunicationInterface)communicationInterface).NativeIpAddress : IPAddress.Any;
-            var ep = new IPEndPoint(ip, port);
+            var ipAddress = (communicationInterface as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
+            var ipEndPoint = new IPEndPoint(ipAddress, port);
+
+            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
             _messageCanceller = new CancellationTokenSource();
-
-            BackingUdpClient = new UdpClient(ep)
-            {
-                EnableBroadcast = true
-            };
 
             await Task.Run(() => RunMessageReceiver(_messageCanceller.Token))
                 .ConfigureAwait(false);

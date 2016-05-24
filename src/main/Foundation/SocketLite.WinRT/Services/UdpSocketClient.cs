@@ -8,10 +8,15 @@ namespace SocketLite.Services
 {
     public class UdpSocketClient : UdpSocketBase, IUdpSocketClient
     {
-        public async Task ConnectAsync(string address, int port)
+        public async Task ConnectAsync(
+            string address, 
+            int port,
+            bool allowMultipleBindToSamePort = false)
         {
             var hostName = new HostName(address);
             var serviceName = port.ToString();
+
+            ConfigureDatagramSocket(allowMultipleBindToSamePort);
 
             await DatagramSocket.ConnectAsync(hostName, serviceName);
         }

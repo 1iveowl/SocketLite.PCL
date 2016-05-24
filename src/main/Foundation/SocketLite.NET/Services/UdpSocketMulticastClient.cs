@@ -16,7 +16,6 @@ namespace SocketLite.Services
 {
     public class UdpSocketMulticastClient : UdpSocketBase, IUdpSocketMulticastClient
     {
-
         public UdpSocketMulticastClient()
         {
         }
@@ -28,31 +27,25 @@ namespace SocketLite.Services
 
         public int TTL { get; set; } = 1;
 
-        public async Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface multicastOn = null)
+        public async Task JoinMulticastGroupAsync(
+            string multicastAddress, 
+            int port, 
+            ICommunicationInterface communicationInterface = null, 
+            bool allowMultipleBindToSamePort = false)
         {
-            CheckCommunicationInterface(multicastOn);
+            CheckCommunicationInterface(communicationInterface);
 
-            var bindingIp = multicastOn != null ? ((CommunicationInterface)multicastOn).NativeIpAddress : IPAddress.Any;
-            var bindingEp = new IPEndPoint(bindingIp, port);
+            var ipAddress = (communicationInterface as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
+            var ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            var multicastIp = IPAddress.Parse(multicastAddress);
-
-            try
-            {
-                BackingUdpClient = new UdpClient(bindingEp)
-                {
-                    EnableBroadcast = true
-                };
-            }
-            catch (PlatformSocketException ex)
-            {
-                throw new PclSocketException(ex);
-            }
+            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
             _messageCanceller = new CancellationTokenSource();
 
+            var multicastIp = IPAddress.Parse(multicastAddress);
             try
             {
+                
                 BackingUdpClient.JoinMulticastGroup(multicastIp, TTL);
             }
             catch (Exception ex)

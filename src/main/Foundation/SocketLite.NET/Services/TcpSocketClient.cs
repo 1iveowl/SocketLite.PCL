@@ -21,13 +21,13 @@ namespace SocketLite.Services
         private SslStream _secureStream;
         private Stream _writeStream;
 
-        public TcpClient Socket { get; private set; }
+        public TcpClient tcpClient { get; private set; }
 
         public string RemoteAddress => RemoteEndpoint.Address.ToString();
 
         public int RemotePort => RemoteEndpoint.Port;
 
-        public Stream ReadStream => _secureStream != null ? _secureStream as Stream : Socket.GetStream();
+        public Stream ReadStream => _secureStream != null ? _secureStream as Stream : tcpClient.GetStream();
 
         public Stream WriteStream => _secureStream != null ? _secureStream as Stream : _writeStream;
 
@@ -37,7 +37,7 @@ namespace SocketLite.Services
             {
                 try
                 {
-                    return Socket.Client.RemoteEndPoint as IPEndPoint;
+                    return tcpClient.Client.RemoteEndPoint as IPEndPoint;
                 }
                 catch (PlatformSocketException ex)
                 {
@@ -48,7 +48,8 @@ namespace SocketLite.Services
 
         public TcpSocketClient() : base(0)
         {
-            Socket = new TcpClient();
+            tcpClient = new TcpClient();
+
         }
 
         public TcpSocketClient(int bufferSize) : base(bufferSize)
@@ -58,7 +59,7 @@ namespace SocketLite.Services
 
         internal TcpSocketClient(TcpClient backingClient, int bufferSize) : base(bufferSize)
         {
-            Socket = backingClient;
+            tcpClient = backingClient;
             InitializeWriteStream();
         }
 
@@ -66,9 +67,12 @@ namespace SocketLite.Services
             string address,
             int port,
             bool secure = false,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default(CancellationToken),
+            bool allowMultipleBindToSamePort = false)
         {
-            var connectTask = Socket.ConnectAsync(address, port).WrapNativeSocketExceptions();
+            tcpClient.ExclusiveAddressUse = !allowMultipleBindToSamePort;
+
+            var connectTask = tcpClient.ConnectAsync(address, port).WrapNativeSocketExceptions();
 
             var ret = new TaskCompletionSource<bool>();
             var canceller = cancellationToken.Register(() => ret.SetCanceled());
@@ -117,14 +121,14 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            Socket.Close();
+            tcpClient.Close();
             _secureStream = null;
-            Socket = new TcpClient();
+            tcpClient = new TcpClient();
         }
 
         private void InitializeWriteStream()
         {
-            _writeStream = BufferSize != 0 ? (Stream)new BufferedStream(Socket.GetStream(), BufferSize) : Socket.GetStream();
+            _writeStream = BufferSize != 0 ? (Stream)new BufferedStream(tcpClient.GetStream(), BufferSize) : tcpClient.GetStream();
         }
 
         private bool ServerValidationCallback(

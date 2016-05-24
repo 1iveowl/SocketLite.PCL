@@ -10,10 +10,12 @@ namespace ISocketLite.PCL.Interface
 {
     public interface ITcpSocketListener : IDisposable
     {
-        //event EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived;
-        ISubject<ITcpSocketClient> ObservableTcpSocket { get; }
+        IObservable<ITcpSocketClient> ObservableTcpSocket { get; }
 
-        Task StartListeningAsync(int port, ICommunicationInterface communicationEntity = null);
+        Task StartListeningAsync(
+            int port, 
+            ICommunicationInterface communicationEntity = null,
+            bool allowMultipleBindToSamePort = false);
 
         void StopListening();
 

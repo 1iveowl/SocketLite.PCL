@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Networking;
@@ -13,16 +14,22 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        public ISubject<IUdpMessage> ObservableMessages { get; private set; } = new Subject<IUdpMessage>();
+        private ISubject<IUdpMessage> ObsMsg { get; } = new Subject<IUdpMessage>();
+
+        public IObservable<IUdpMessage> ObservableMessages => ObsMsg.AsObservable();
 
         protected UdpSocketBase()
         {
-            InitializeSocket();
+            InitializeUdpSocket();
         }
 
-        protected async Task BindeUdpServiceNameAsync(ICommunicationInterface communicationInterface, string serviceName)
+        protected async Task BindeUdpServiceNameAsync(
+            ICommunicationInterface communicationInterface, 
+            string serviceName,
+            bool allowMultipleBindToSamePort)
         {
-            
+            ConfigureDatagramSocket(allowMultipleBindToSamePort);
+
             var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
 
             if (adapter != null)
@@ -33,6 +40,20 @@ namespace SocketLite.Services.Base
             {
                 await DatagramSocket.BindServiceNameAsync(serviceName);
             }
+        }
+
+        protected void ConfigureDatagramSocket(bool allowMultipleBindToSamePort)
+        {
+#if WINDOWS_UWP
+            DatagramSocket.Control.MulticastOnly = allowMultipleBindToSamePort;
+#endif
+
+#if !WINDOWS_UWP
+            if (allowMultipleBindToSamePort)
+            {
+                throw new ArgumentException("Multiple binding to same port is only support by Windows 10/UWP and not WinRT");
+            }
+#endif
         }
 
         protected void DatagramMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
@@ -57,11 +78,11 @@ namespace SocketLite.Services.Base
                     RemotePort = remotePort
                 };
 
-                ObservableMessages.OnNext(udpMessage);
+                ObsMsg.OnNext(udpMessage);
             }
             catch (Exception ex)
             {
-                ObservableMessages.OnError(ex);
+                ObsMsg.OnError(ex);
             }
         }
 
@@ -69,28 +90,19 @@ namespace SocketLite.Services.Base
         {
             DatagramSocket.MessageReceived -= DatagramMessageReceived;
             DatagramSocket.Dispose();
-            InitializeSocket();
+            InitializeUdpSocket();
         }
 
-        private void InitializeSocket()
+        private void InitializeUdpSocket()
         {
-            var socket = new DatagramSocket
-            {
-#if WINDOWS_UWP
-                Control =
-                {
-                    MulticastOnly = true,
-                }
-#endif
-            };
+            DatagramSocket = new DatagramSocket();
 
-            socket.MessageReceived += DatagramMessageReceived;
-            DatagramSocket = socket;
+            DatagramSocket.MessageReceived += DatagramMessageReceived;
         }
 
         public void Dispose()
         {
-            ObservableMessages.OnCompleted();
+            ObsMsg.OnCompleted();
             DatagramSocket.MessageReceived -= DatagramMessageReceived;
             DatagramSocket.Dispose();
         }

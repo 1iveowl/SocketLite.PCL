@@ -10,10 +10,12 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketReceiver : IDisposable
     {
-        //event EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived;
-        ISubject<IUdpMessage> ObservableMessages { get; }
+        IObservable<IUdpMessage> ObservableMessages { get; }
 
-        Task StartListeningAsync(int port, ICommunicationInterface communicationInterface);
+        Task StartListeningAsync(
+            int port, 
+            ICommunicationInterface communicationInterface, 
+            bool allowMultipleBindToSamePort = false);
 
         void StopListening();
 

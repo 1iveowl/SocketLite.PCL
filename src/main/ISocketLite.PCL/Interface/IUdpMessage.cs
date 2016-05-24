@@ -13,12 +13,5 @@ namespace ISocketLite.PCL.EventArgs
         string RemotePort { get; }
 
         byte[] ByteData { get; }
-
-        //public UdpMessage(string remoteAddress, string remotePort, byte[] byteData)
-        //{
-        //    RemoteAddress = remoteAddress;
-        //    RemotePort = remotePort;
-        //    ByteData = byteData;
-        //}
     }
 }

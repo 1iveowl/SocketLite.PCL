@@ -18,12 +18,14 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        public ISubject<ITcpSocketClient> ObservableTcpSocket { get; } = new Subject<ITcpSocketClient>();
+        private ISubject<ITcpSocketClient> ObsTcpSocket { get; } = new Subject<ITcpSocketClient>();
 
-        private TcpListener _backingTcpListener;
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => ObsTcpSocket.AsObservable();
+
+        private TcpListener _tcpListener;
         private CancellationTokenSource _listenCanceller;
 
-        public int LocalPort => ((IPEndPoint)(_backingTcpListener.LocalEndpoint)).Port;
+        public int LocalPort => ((IPEndPoint)(_tcpListener.LocalEndpoint)).Port;
 
         public TcpSocketListener() : base(0)
         {
@@ -31,10 +33,12 @@ namespace SocketLite.Services
 
         public TcpSocketListener(int bufferSize) : base(bufferSize)
         {
-
         }
 
-        public async Task StartListeningAsync(int port, ICommunicationInterface listenOn = null)
+        public async Task StartListeningAsync(
+            int port, 
+            ICommunicationInterface listenOn = null,
+            bool allowMultipleBindToSamePort = false)
         {
             CheckCommunicationInterface(listenOn);
 
@@ -42,11 +46,14 @@ namespace SocketLite.Services
 
             _listenCanceller = new CancellationTokenSource();
 
-            _backingTcpListener = new TcpListener(ipAddress, port);
+            _tcpListener = new TcpListener(ipAddress, port)
+            {
+                ExclusiveAddressUse = !allowMultipleBindToSamePort
+            };
 
             try
             {
-                _backingTcpListener.Start();
+                _tcpListener.Start();
             }
             catch (PlatformSocketException ex)
             {
@@ -61,28 +68,27 @@ namespace SocketLite.Services
             _listenCanceller.Cancel();
             try
             {
-                _backingTcpListener.Stop();
+                _tcpListener.Stop();
             }
             catch (PlatformSocketException ex)
             {
                 throw new PclSocketException(ex);
             }
 
-            _backingTcpListener = null;
+            _tcpListener = null;
         }
-        
 
         private void WaitForConnections(CancellationToken cancelToken)
         {
             var observeTcpClient = Observable.While(
                 () => !cancelToken.IsCancellationRequested,
-                Observable.FromAsync(_backingTcpListener.AcceptTcpClientAsync)).SubscribeOn(Scheduler.Default);
+                Observable.FromAsync(_tcpListener.AcceptTcpClientAsync)).SubscribeOn(Scheduler.Default);
 
             observeTcpClient.Subscribe(
                 tcpClient =>
                 {
                     var wrappedTcpClint = new TcpSocketClient(tcpClient, BufferSize);
-                    ObservableTcpSocket.OnNext(wrappedTcpClint);
+                    ObsTcpSocket.OnNext(wrappedTcpClint);
                 },
                 ex =>
                 {
@@ -94,8 +100,8 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _backingTcpListener.Stop();
-            ObservableTcpSocket.OnCompleted();
+            _tcpListener.Stop();
+            ObsTcpSocket.OnCompleted();
         }
     }
 }

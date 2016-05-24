@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
@@ -12,9 +13,10 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        public ISubject<ITcpSocketClient> ObservableTcpSocket { get; } = new Subject<ITcpSocketClient>();
-
         private StreamSocketListener _streamSocketListener;
+        private ISubject<ITcpSocketClient> ObsTcpSocket { get; } = new Subject<ITcpSocketClient>();
+
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => ObsTcpSocket.AsObservable();
 
         public int LocalPort { get; internal set; }
 
@@ -26,7 +28,10 @@ namespace SocketLite.Services
         {
         }
 
-        public async Task StartListeningAsync(int port, ICommunicationInterface communicationInterface = null)
+        public async Task StartListeningAsync(
+            int port, 
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
         {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);
@@ -55,11 +60,11 @@ namespace SocketLite.Services
             {
                 var nativeSocket = e.Socket;
 
-                ObservableTcpSocket.OnNext(new TcpSocketClient(nativeSocket, BufferSize));
+                ObsTcpSocket.OnNext(new TcpSocketClient(nativeSocket, BufferSize));
             }
             catch (Exception ex)
             {
-                ObservableTcpSocket.OnError(ex);
+                ObsTcpSocket.OnError(ex);
             }
         }
 
@@ -73,7 +78,7 @@ namespace SocketLite.Services
         {
             _streamSocketListener.ConnectionReceived -= OnConnectionReceived;
             _streamSocketListener.Dispose();
-            ObservableTcpSocket.OnCompleted();
+            ObsTcpSocket.OnCompleted();
         }
     }
 }

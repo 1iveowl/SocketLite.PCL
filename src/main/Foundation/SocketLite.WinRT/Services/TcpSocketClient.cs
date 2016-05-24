@@ -9,7 +9,7 @@ using SocketLite.Services.Base;
 
 namespace SocketLite.Services
 {
-    public class TcpSocketClient : TcpSocketBase, ITcpSocketClient//, IExposeBackingSocket
+    public class TcpSocketClient : TcpSocketBase, ITcpSocketClient
     {
         public StreamSocket Socket { get; private set; }
 
@@ -20,8 +20,6 @@ namespace SocketLite.Services
         public string RemoteAddress => Socket.Information.RemoteAddress.CanonicalName;
 
         public int RemotePort => int.Parse(Socket.Information.RemotePort);
-
-        //object IExposeBackingSocket.Socket => Socket;
 
         public TcpSocketClient() : base(0)
         {

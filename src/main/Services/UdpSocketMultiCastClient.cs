@@ -15,9 +15,12 @@ namespace SocketLite.Services
     {
         public int TTL { get; set; }
 
-        public ISubject<IUdpMessage> ObservableMessages { get; } = null;
+        public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
-        public Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface communicationInterface)
+        public Task JoinMulticastGroupAsync(
+            string multicastAddress, 
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

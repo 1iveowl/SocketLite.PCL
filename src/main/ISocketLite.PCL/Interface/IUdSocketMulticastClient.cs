@@ -10,11 +10,12 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketMulticastClient : IDisposable
     {
+        IObservable<IUdpMessage> ObservableMessages { get; }
 
-        //event EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived;
-        ISubject<IUdpMessage> ObservableMessages { get; }
-
-        Task JoinMulticastGroupAsync(string multicastAddress, int port, ICommunicationInterface communicationInterface);
+        Task JoinMulticastGroupAsync(
+            string multicastAddress, 
+            int port, ICommunicationInterface communicationInterface, 
+            bool allowMultipleBindToSamePort = false);
 
         void Disconnect();
 

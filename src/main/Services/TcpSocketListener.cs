@@ -13,10 +13,13 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        public ISubject<ITcpSocketClient> ObservableTcpSocket { get; } = null;
+        public IObservable<ITcpSocketClient> ObservableTcpSocket { get; } = null;
         public int LocalPort => 0;
 
-        public Task StartListeningAsync(int port, ICommunicationInterface communicationInterface)
+        public Task StartListeningAsync(
+            int port, 
+            ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
