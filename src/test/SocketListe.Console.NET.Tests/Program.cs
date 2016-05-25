@@ -16,7 +16,6 @@ namespace SocketListe.Console.NET.Tests
         {
             StartTcpListener();
             StartUdpMulticastClient();
-            StartTcpClient();
 
             System.Console.ReadKey();
         }
@@ -85,7 +84,7 @@ namespace SocketListe.Console.NET.Tests
                 {
                     // Exceptions received here;
                 });
-            tcpSubscriber.Dispose();
+            //tcpSubscriber.Dispose();
         }
 
         private static async void StartUdpMulticastClient()
@@ -103,15 +102,15 @@ namespace SocketListe.Console.NET.Tests
                     System.Console.WriteLine("--------------***-------------");
                 });
 
-            tcpSubscriber.Dispose();
+            //tcpSubscriber.Dispose();
 
             // Send part
-            var msg = "Hello everyone";
-            var bytes = Encoding.UTF8.GetBytes(msg);
+            //var msg = "Hello everyone";
+            //var bytes = Encoding.UTF8.GetBytes(msg);
 
-            await udpMulticast.SendMulticastAsync(bytes);
+            //await udpMulticast.SendMulticastAsync(bytes);
 
-            udpMulticast.Disconnect();
+            //udpMulticast.Disconnect();
         }
     }
 }
