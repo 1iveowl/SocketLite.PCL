@@ -79,7 +79,8 @@ var udpMessageSubscriber = udpReceived.ObservableMessages.Subscribe(
         // Exceptions received here;
     });
 
-udpMessageSubscriber.Dispose();
+// When done dispose
+//udpMessageSubscriber.Dispose();
 ```
 
 ##### A UDP client
@@ -109,13 +110,14 @@ var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
         System.Console.WriteLine("***");
     });
 
-tcpSubscriber.Dispose();
+// When Done Dispose
+//tcpSubscriber.Dispose();
 
 // Send part
-var msg = "Hello everyone";
-var bytes = Encoding.UTF8.GetBytes(msg);
+//var msg = "Hello everyone";
+//var bytes = Encoding.UTF8.GetBytes(msg);
 
-await udpMulticast.SendMulticastAsync(bytes);
+//await udpMulticast.SendMulticastAsync(bytes);
 
-udpMulticast.Disconnect();
+//udpMulticast.Disconnect();
 ```
