@@ -4,7 +4,7 @@ This project is a fork that build upon the fantastic work done one [Socket for P
 
 Why this fork? Two reasons:
 
- 1. The original Socket for PCL delivers great broad support cross platform support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android, making it simpler but also more narrow in scope.
+ 1. The original Socket for PCL delivers great broad cross-platform support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android, making it simpler but also more narrow in scope.
  2. SocketLite has been refactored to use Reactive Extensions (Rx) internally as well as externally - i.e. this PCL requires Rx.
 
 To overarching purpose of a PCL like this is to make it easie to write socket code in PCL, simplifying cross-platform usage of socket.. 
