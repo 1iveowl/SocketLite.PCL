@@ -91,7 +91,7 @@ var helloWorld = "Voyager 1";
 
 var bytes = Encoding.UTF8.GetBytes(helloWorld);
 
-// Fire and forget the datagram
+// Fire datagram into the great void
 await udpClient.SendToAsync(bytes, bytes.Length, address:"192.168.1.5", port:1234);
 ```
 
@@ -106,7 +106,7 @@ var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
     {
         System.Console.WriteLine($"Remote Address: {x.RemoteAddress}");
         System.Console.WriteLine($"Remote Port: {x.RemotePort}");
-        System.Console.WriteLine($"Date: {Encoding.UTF8.GetString(x.ByteData)}");
+        System.Console.WriteLine($"Data/string: {Encoding.UTF8.GetString(x.ByteData)}");
         System.Console.WriteLine("***");
     });
 
