@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>0.9.3.29</version>
+    <version>0.9.3</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Ryan Davis, Jasper H. Bojsen</authors>
     <owners>Ryan Davis, Jasper H. Bojsen</owners>
@@ -15,31 +15,57 @@
     <copyright>Copyright 2016</copyright>
     <tags>Socket, Tcp, Udp, Xamarin, PCL, ios, android, uwp, windows 10</tags>
     <dependencies>
-
+      
+      <group targetFramework="net45">
         <dependency id="Rx-Main" version="2.2.5" />
-
+      </group>
+      
+      <group targetFramework="portable-net45+netcore45">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <group targetFramework="MonoAndroid10">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <group targetFramework="uap10.0">
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.IO" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+        <dependency id="System.Linq" version="4.0.0" />
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <!--<group targetFramework="dotnet">
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.IO" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+        <dependency id="System.Linq" version="4.0.0" />
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>-->
     </dependencies>
   </metadata>
   <files>
   <!--Core-->
       <file src="bin\Release\SocketLite.dll"
-          target="lib\portable-net45+netcore45\SocketLite.dll" />
-      <file src="bin\Release\SocketLite.pdb"
-        target="lib\portable-net45+netcore45\SocketLite.pdb" />
-      <file src="bin\Release\ISocketLite.PCL.dll"
-        target="lib\portable-net45+netcore45\ISocketLite.PCL.dll" />
-      <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+netcore45\ISocketLite.PCL.pdb" />
-        
-        
-      <!--<file src="bin\Release\SocketLite.dll"
           target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.dll" />
       <file src="bin\Release\SocketLite.pdb"
         target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.pdb" />
       <file src="bin\Release\ISocketLite.PCL.dll"
         target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.dll" />
       <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.pdb" />          -->
+        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.pdb" />         
 
   <!--Xamarin.Android-->
       <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
