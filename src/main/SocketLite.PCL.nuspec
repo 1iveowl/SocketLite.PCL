@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SocketLite.PCL</id>
+    <version>0.9.3</version>
+    <title>Socket Lite - Xamarin PCL</title>
+    <authors>Ryan Davis, Jasper H. Bojsen</authors>
+    <owners>Ryan Davis, Jasper H. Bojsen</owners>
+    <licenseUrl>https://github.com/1iveowl/SocketLite.PCL/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/1iveowl/SocketLite.PCL</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Socket, Tcp, Udp, Xamarin, PCL, ios, android, uwp, windows 10</tags>
+    <dependencies>
+      <!--<group targetFramework="portable-net45+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0">
+        <dependency id="System.Runtime" version="4.0.0" />
+        <dependency id="System.Resources.ResourceManager" version="4.0.0" />
+        <dependency id="System.IO" version="4.0.0" />
+        <dependency id="System.Threading.Tasks" version="4.0.0" />-->
+        <!--<dependency id="Rx-Interfaces" version="2.2.5" />
+        <dependency id="Rx-Linq" version="2.2.5" />
+        <dependency id="Rx-Core" version="2.2.5" />
+      </group>-->
+      
+      <group targetFramework="net">
+        <!--<dependency id="System.Runtime" version="4.0.0" />
+        <dependency id="System.Resources.ResourceManager" version="4.0.0" />
+        <dependency id="System.IO" version="4.0.0" />
+        <dependency id="System.Threading.Tasks" version="4.0.0" />-->
+      </group>
+      
+      <group targetFramework="MonoAndroid10">
+        <!--<dependency id="mscorlib" version="2.0.5" />-->
+        <dependency id="Mono.Android" version="0.0.0" />
+        <!--<dependency id="System" version="2.0.5" />
+        <dependency id="System.Core" version="2.0.5" />-->
+        <!--<dependency id="Rx-Interfaces" version="2.2.5" />-->
+        <!--<dependency id="Rx-Linq" version="2.2.5" />-->
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <!--<dependency id="mscorlib" version="2.0.5" />
+        <dependency id="System" version="2.0.5" />
+        <dependency id="System.Core" version="2.0.5" />-->
+        <!--<dependency id="Rx-Interfaces" version="2.2.5" />-->
+        <!--<dependency id="Rx-Linq" version="2.2.5" />-->
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <group targetFramework="uap10.0">
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.IO" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+        <dependency id="System.Linq" version="4.0.0" />
+        
+        <!--<dependency id="Rx-Interfaces" version="2.2.5" />-->
+        <!--<dependency id="Rx-Linq" version="2.2.5" />-->
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <group targetFramework="portable-net45+win8+wpa81+wp8">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      
+      <group targetFramework="dotnet">
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.IO" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+        <dependency id="System.Linq" version="4.0.0" />
+        
+        <!--<dependency id="Rx-Interfaces" version="2.2.5" />-->
+        <!--<dependency id="Rx-Linq" version="2.2.5" />-->
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+
+    </dependencies>
+  </metadata>
+  <files>
+  <!--Core-->
+      <file src="bin\Release\SocketLite.dll"
+          target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.dll" />
+      <file src="bin\Release\SocketLite.pdb"
+        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.pdb" />
+      <file src="bin\Release\ISocketLite.PCL.dll"
+        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.dll" />
+      <file src="bin\Release\ISocketLite.PCL.pdb"
+        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.pdb" />         
+
+  <!--Xamarin.Android-->
+      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
+          target="lib\MonoAndroid10\SocketLite.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.pdb"
+        target="lib\MonoAndroid10\SocketLite.pdb" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\ISocketLite.PCL.dll"
+        target="lib\MonoAndroid10\ISocketLite.PCL.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\ISocketLite.PCL.pdb"
+        target="lib\MonoAndroid10\ISocketLite.PCL.pdb" />         
+  
+  <!--Xamarin.iOS Unified-->
+      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\SocketLite.dll"
+          target="lib\Xamarin.iOS10\SocketLite.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\SocketLite.pdb"
+        target="lib\Xamarin.iOS10\SocketLite.pdb" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\ISocketLite.PCL.dll"
+        target="lib\Xamarin.iOS10\ISocketLite.PCL.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\ISocketLite.PCL.pdb"
+        target="lib\Xamarin.iOS10\ISocketLite.PCL.pdb" />
+        
+<!--UWP-->
+      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\SocketLite.dll"
+          target="lib\uap10.0\SocketLite.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\SocketLite.pdb"
+        target="lib\uap10.0\SocketLite.pdb" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.dll"
+        target="lib\uap10.0\ISocketLite.PCL.dll" />
+      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.pdb"
+        target="lib\uap10.0\ISocketLite.PCL.dll.pdb" />
+        
+<!--Windows Desktop-->
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.NET.dll"
+          target="lib\net45\SocketLite.NET.dll" />
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.NET.pdb"
+        target="lib\net45\SocketLite.NET.pdb" />
+      <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.dll"
+        target="lib\net45\ISocketLite.PCL.dll" />
+      <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
+        target="lib\net45\ISocketLite.PCL.dll.pdb" />
+        
+<!--Windows 8.1-->
+      <!--<file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.dll"
+          target="lib\portable-net45+win8+wpa81+wp8\SocketLite.WinRT.dll" />
+      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.pdb"
+        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.WinRT.pdb" />
+      <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
+        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
+      <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
+        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll.pdb" />                       -->
+             
+  </files>
+</package>
