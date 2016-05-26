@@ -27,7 +27,7 @@ Class|Description|.NET|Windows 10 / UWP
 
 ### Examples Usage
 
-##### A TCP listener
+##### A TCP Listener
 ```cs
 var tcpListener = new SocketLite.Services.TcpSocketListener();
 await tcpListener.StartListeningAsync(80, allowMultipleBindToSamePort: true);
@@ -47,7 +47,7 @@ tcpSubscriber.Dispose();
 ```
 
 
-##### A TCP client
+##### A TCP Client
 ```cs
 var tcpClient = new TcpSocketClient();
 await tcpClient.ConnectAsync("192.168.1.100", 1234);
@@ -60,7 +60,7 @@ tcpClient.Disconnect();
 ```
 
     
-##### A UDP receiver
+##### A UDP Receiver
 ```cs
 var udpReceived = new UdpSocketReceiver();
 await udpReceived.StartListeningAsync(1234, allowMultipleBindToSamePort: true);
@@ -83,7 +83,7 @@ var udpMessageSubscriber = udpReceived.ObservableMessages.Subscribe(
 //udpMessageSubscriber.Dispose();
 ```
 
-##### A UDP client
+##### A UDP Client
 ```cs
 var udpClient = new UdpSocketClient();
 
@@ -95,7 +95,7 @@ var bytes = Encoding.UTF8.GetBytes(helloWorld);
 await udpClient.SendToAsync(bytes, bytes.Length, address:"192.168.1.5", port:1234);
 ```
 
-##### A multicast UDP client
+##### A Multicast UDP Client
 ```cs
 var udpMulticast = new SocketLite.Services.UdpSocketMulticastClient();
 await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort:true); //Listen for UPnP activity on local network.
@@ -120,4 +120,20 @@ var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
 //await udpMulticast.SendMulticastAsync(bytes);
 
 //udpMulticast.Disconnect();
+```
+##### Using a Specific Network Interface
+If no interface is specified the receivers/listeners bind to all available interfaces. If needed a specific interface can be specified.
+
+```cs
+var communicationInterface = new CommunicationInterface();
+var allInterfaces = communicationInterface.GetAllInterfaces();
+
+var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IsUsable);
+
+var udpReceived = new UdpSocketReceiver();
+await udpReceived.StartListeningAsync(
+    port:1234, 
+    communicationInterface:firstUsableInterface, 
+    allowMultipleBindToSamePort: true);
+
 ```
