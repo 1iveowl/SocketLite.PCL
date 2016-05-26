@@ -1,15 +1,18 @@
-#SocketLite Xamarin PCL: iOS, UWP, Android and .NET 4.5+
+#SocketLite Xamarin PCL
 
 This project is a fork that build upon the fantastic work done one [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
 
 Why this fork? Two reasons:
 
- 1. The original Socket for PCL delivers great broad cross-platform support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android, making it simpler but also more narrow in scope.
- 2. SocketLite has been refactored to use Reactive Extensions (Rx) internally as well as externally - i.e. this PCL requires Rx.
+ 1. The original Socket for PCL delivers great broad cross-platform
+    support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android.
+    
+ 2. SocketLite has been refactored to use Reactive Extensions (Rx)
+    internally as well as externally.
 
-To overarching purpose of a PCL like this is to make it easie to write socket code in PCL, simplifying cross-platform usage of socket.. 
+The purpose of this PCLis to make it easy to write cross platform socket code. For example [Simple Http Listener](https://github.com/1iveowl/Simple-Http-Listener-PCL) is written using SocketLite.PCL
 
-This library is based on "Bait and Switch" pattern. I would strongly recommend to read this short and great blog post to get an understanding of this pattern before trying to contribute or edit in the SocketLite PCL code-base: [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/)
+This library is based on "Bait and Switch" pattern. It is strongly recommend to read this short and great blog post to get an good understanding of this pattern before contributing to the SocketLite PCL code-base: [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/)
 
 Get SocketLite.PCL in NuGet: ````Install-Package SocketLite.PCL````
 
