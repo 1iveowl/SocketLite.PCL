@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>0.9.3.29</version>
+    <version>0.9.5</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Ryan Davis, Jasper H. Bojsen</authors>
     <owners>Ryan Davis, Jasper H. Bojsen</owners>
@@ -83,9 +83,9 @@
         
 <!--Windows 8.x & Windows Phone 81-->
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.dll"
-          target="lib\win8+wpa81+wp8\SocketLite.dll" />
+          target="lib\win8+wpa81+wp8\SocketLite.WinRT.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.pdb" />
+        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.WinRT.pdb" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
         target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
