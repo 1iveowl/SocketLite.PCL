@@ -1,6 +1,8 @@
-#SocketLite Xamarin PCL
+#SocketLite.PCL
 
-This project is a fork that build upon the fantastic work done one [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
+### Supports Xamarin Forms on Windows 10/UWP, iOS and Andriod
+
+This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
 
 Why this fork? Two reasons:
 
