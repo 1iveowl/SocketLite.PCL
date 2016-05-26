@@ -17,6 +17,12 @@ namespace SocketListe.Console.NET.Tests
             StartTcpListener();
             StartUdpMulticastClient();
 
+            var communicationInterface = new CommunicationInterface();
+            var allInterfaces = communicationInterface.GetAllInterfaces();
+
+            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IsUsable);
+
+
             System.Console.ReadKey();
         }
 

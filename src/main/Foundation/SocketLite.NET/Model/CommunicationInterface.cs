@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using ISocketLite.PCL.Model;
 using SocketLite.Extensions;
@@ -70,5 +72,11 @@ namespace SocketLite.Model
             };
         }
 
+        public IEnumerable<ICommunicationInterface> GetAllInterfaces()
+        {
+            return NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Select(FromNativeInterface);
+        }
     }
 }

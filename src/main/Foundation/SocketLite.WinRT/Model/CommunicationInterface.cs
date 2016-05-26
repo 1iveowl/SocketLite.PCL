@@ -1,15 +1,17 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
 using ISocketLite.PCL.Interface;
 using ISocketLite.PCL.Model;
+using SocketLite.Extensions;
 
 namespace SocketLite.Model
 {
 
     public class CommunicationInterface : ICommunicationInterface
     {
-
         public string NativeInterfaceId { get; internal set; }
 
         public string Name { get; internal set; }
@@ -32,58 +34,44 @@ namespace SocketLite.Model
 
         protected internal NetworkAdapter NativeNetworkAdapter;
 
-        // TODO: Move to singleton, rather than static method?
+        public IEnumerable<ICommunicationInterface> GetAllInterfaces()
+        {
 
-        //public async Task<List<CommunicationEntity>> GetAllInterfacesAsync()
-        //{
-        //    //return Task.Run(() =>
-        //    //{
-        //        var profiles = NetworkInformation
-        //            .GetConnectionProfiles()
-        //            .Where(cp => cp.NetworkAdapter != null)
-        //            .GroupBy(cp => cp.NetworkAdapter.NetworkAdapterId)
-        //            .Select(na => na.First())
-        //            .ToDictionary(cp => cp.NetworkAdapter.NetworkAdapterId.ToString(), cp => cp);
+            var profiles = NetworkInformation
+                .GetConnectionProfiles()
+                .Where(c => c.NetworkAdapter != null)
+                .GroupBy(c => c.NetworkAdapter.NetworkAdapterId)
+                .Select(x => x.FirstOrDefault())
+                .ToDictionary(c => c.NetworkAdapter.NetworkAdapterId.ToString(), c => c);
 
-        //        var interfaces =
-        //            NetworkInformation
-        //                .GetHostNames()
-        //                .Where(hn => hn.IPInformation != null && hn.IPInformation.NetworkAdapter != null)
-        //                .Where(hn => hn.Type == HostNameType.Ipv4)
-        //                .Where(hn => hn.IPInformation.PrefixLength != null)
-        //                .Select(hn =>
-        //                {
-        //                    var ipAddress = hn.CanonicalName;
-        //                    var prefixLength = (int)hn.IPInformation.PrefixLength; // seriously why is this nullable
+            return NetworkInformation.GetHostNames()
+                    .Where(h => h.IPInformation?.NetworkAdapter != null
+                                && h.Type == HostNameType.Ipv4
+                                && h.IPInformation.PrefixLength != null)
+                    .Select(h =>
+                    {
+                        var adapter = h.IPInformation.NetworkAdapter;
+                        var adapterId = adapter.NetworkAdapterId.ToString();
+                        var subnetAddress = NetworkExtensions.GetSubnetAddress(
+                            h.CanonicalName, 
+                            h.IPInformation.PrefixLength.Value);
 
-        //                    var subnetAddress = NetworkExtensions.GetSubnetAddress(ipAddress, prefixLength);
-        //                    var broadcastAddress = NetworkExtensions.GetBroadcastAddress(ipAddress, subnetAddress);
+                        ConnectionProfile connectProfile;
+                        var adapterName = profiles.TryGetValue(adapterId, out connectProfile) 
+                            ? connectProfile.ProfileName 
+                            : "{ unknown }";
 
-        //                    var adapter = hn.IPInformation.NetworkAdapter;
-        //                    var adapterId = adapter.NetworkAdapterId.ToString();
-        //                    var adapterName = "{ unknown }";
-        //                    ConnectionProfile matchingProfile;
-
-        //                    if (profiles.TryGetValue(adapterId, out matchingProfile))
-        //                        adapterName = matchingProfile.ProfileName;
-
-        //                    return new CommunicationEntity
-        //                    {
-        //                        NativeInterfaceId = adapterId,
-        //                        Name = adapterName,
-        //                        IpAddress = ipAddress,
-        //                        BroadcastAddress = broadcastAddress,
-        //                        GatewayAddress = null,
-
-        //                        NativeHostName = hn,
-        //                        NativeNetworkAdapter = adapter,
-
-        //                        ConnectionStatus = CommunicationConnectionStatus.Unknown
-        //                    };
-        //                }).ToList();
-
-        //        return interfaces;
-        //    //});
-        //}
+                        return new CommunicationInterface
+                        {
+                            NativeInterfaceId = adapterId,
+                            Name = adapterName,
+                            IpAddress = h.CanonicalName,
+                            BroadcastAddress = NetworkExtensions.GetBroadcastAddress(IpAddress, subnetAddress),
+                            NativeHostName = h,
+                            NativeNetworkAdapter =  adapter,
+                            ConnectionStatus = CommunicationConnectionStatus.Unknown
+                        };
+                    }); 
+        }
     }
 }

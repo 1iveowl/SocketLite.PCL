@@ -24,5 +24,7 @@ namespace ISocketLite.PCL.Interface
         bool IsUsable { get; }
 
         bool IsLoopback { get; }
+
+        IEnumerable<ICommunicationInterface> GetAllInterfaces();
     }
 }
