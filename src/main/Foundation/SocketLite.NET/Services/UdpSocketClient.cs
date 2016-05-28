@@ -10,7 +10,7 @@ using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
 namespace SocketLite.Services
 {
-    public class UdpSocketClient : UdpSocketBase, IUdpSocketClient
+    public class UdpSocketClient : UdpSendBase, IUdpSocketClient
     {
 
         public UdpSocketClient()
@@ -54,6 +54,11 @@ namespace SocketLite.Services
         public void Disconnect()
         {
             MessageConcellationTokenSource.Cancel();
+            BackingUdpClient.Close();
+        }
+
+        public void Dispose()
+        {
             BackingUdpClient.Close();
         }
     }

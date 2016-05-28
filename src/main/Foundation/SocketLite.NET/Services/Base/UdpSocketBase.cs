@@ -15,7 +15,7 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        protected CancellationTokenSource MessageConcellationTokenSource;
+        
 
         private ISubject<IUdpMessage> MessageSubject { get; } = new Subject<IUdpMessage>();
 

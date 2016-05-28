@@ -6,7 +6,7 @@ using SocketLite.Services.Base;
 
 namespace SocketLite.Services
 {
-    public class UdpSocketClient : UdpSocketBase, IUdpSocketClient
+    public class UdpSocketClient : UdpSendBase, IUdpSocketClient
     {
         public async Task ConnectAsync(
             string address, 
@@ -23,7 +23,12 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            CloseSocket();
+            DatagramSocket.Dispose();
+        }
+
+        public void Dispose()
+        {
+            DatagramSocket.Dispose();
         }
     }
 }

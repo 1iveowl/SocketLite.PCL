@@ -42,5 +42,19 @@ namespace SocketLite.Services.Base
             await stream.WriteAsync(data, 0, length).ConfigureAwait(false);
             await stream.FlushAsync().ConfigureAwait(false);
         }
+
+        protected void ConfigureDatagramSocket(bool allowMultipleBindToSamePort)
+        {
+#if WINDOWS_UWP
+            DatagramSocket.Control.MulticastOnly = allowMultipleBindToSamePort;
+#endif
+
+#if !WINDOWS_UWP
+            if (allowMultipleBindToSamePort)
+            {
+                throw new ArgumentException("Multiple binding to same port is only supported by Windows 10/UWP and not WinRT");
+            }
+#endif
+        }
     }
 }

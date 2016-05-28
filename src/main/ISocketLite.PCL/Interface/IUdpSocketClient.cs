@@ -10,8 +10,6 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketClient : IDisposable
     {
-        IObservable<IUdpMessage> ObservableMessages { get; }
-
         Task ConnectAsync(
             string address, 
             int port, 
