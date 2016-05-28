@@ -1,7 +1,6 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "NuSpec.ReferenceGenerator": "2.0.0-beta-bld01",
     "Rx-Core": "2.2.5",
     "Rx-Interfaces": "2.2.5",
     "Rx-Linq": "2.2.5",
