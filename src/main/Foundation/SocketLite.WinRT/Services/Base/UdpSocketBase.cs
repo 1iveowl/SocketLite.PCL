@@ -3,7 +3,9 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.ServiceModel;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using ISocketLite.PCL.EventArgs;
@@ -14,20 +16,54 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        private ISubject<IUdpMessage> ObsMsg { get; } = new Subject<IUdpMessage>();
+        // Using a subject to keep ensure that a connection can be closed and reopened while keeping subscribing part intact
+        private readonly ISubject<IUdpMessage> _messageSubjekt = new Subject<IUdpMessage>();
 
-        public IObservable<IUdpMessage> ObservableMessages => ObsMsg.AsObservable();
+        private IDisposable _messageSubscribe;
+
+        public IObservable<IUdpMessage> ObservableMessages => _messageSubjekt.AsObservable();
+
+        private IObservable<IUdpMessage> ObserveMessagesFromEvents
+            => Observable.FromEventPattern<
+                TypedEventHandler<DatagramSocket, DatagramSocketMessageReceivedEventArgs>,
+                DatagramSocketMessageReceivedEventArgs>(
+                ev => DatagramSocket.MessageReceived += ev,
+                ev => DatagramSocket.MessageReceived -= ev)
+                .Select(
+                    handler =>
+                    {
+                        var remoteAddress = handler.EventArgs.RemoteAddress.CanonicalName;
+                        var remotePort = handler.EventArgs.RemotePort;
+                        byte[] allBytes;
+
+                        var stream = handler.EventArgs.GetDataStream().AsStreamForRead();
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memoryStream);
+                            allBytes = memoryStream.ToArray();
+                        }
+
+                        return new UdpMessage
+                        {
+                            ByteData = allBytes,
+                            RemoteAddress = remoteAddress,
+                            RemotePort = remotePort
+                        };
+                    });
 
         protected UdpSocketBase()
         {
             InitializeUdpSocket();
+
         }
 
         protected async Task BindeUdpServiceNameAsync(
-            ICommunicationInterface communicationInterface, 
+            ICommunicationInterface communicationInterface,
             string serviceName,
             bool allowMultipleBindToSamePort)
         {
+           
+
             ConfigureDatagramSocket(allowMultipleBindToSamePort);
 
             var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
@@ -51,59 +87,41 @@ namespace SocketLite.Services.Base
 #if !WINDOWS_UWP
             if (allowMultipleBindToSamePort)
             {
-                throw new ArgumentException("Multiple binding to same port is only support by Windows 10/UWP and not WinRT");
+                throw new ArgumentException("Multiple binding to same port is only supported by Windows 10/UWP and not WinRT");
             }
 #endif
         }
 
-        protected void DatagramMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
-        {
-            try
-            {
-                var remoteAddress = args.RemoteAddress.CanonicalName;
-                var remotePort = args.RemotePort;
-                byte[] allBytes;
-
-                var stream = args.GetDataStream().AsStreamForRead();
-                using (var memoryStream = new MemoryStream())
-                {
-                    stream.CopyTo(memoryStream);
-                    allBytes = memoryStream.ToArray();
-                }
-
-                var udpMessage = new UdpMessage
-                {
-                    ByteData = allBytes,
-                    RemoteAddress = remoteAddress,
-                    RemotePort = remotePort
-                };
-
-                ObsMsg.OnNext(udpMessage);
-            }
-            catch (Exception ex)
-            {
-                ObsMsg.OnError(ex);
-            }
-        }
-
         protected void CloseSocket()
         {
-            DatagramSocket.MessageReceived -= DatagramMessageReceived;
             DatagramSocket.Dispose();
+            _messageSubscribe.Dispose();
             InitializeUdpSocket();
         }
 
         private void InitializeUdpSocket()
         {
             DatagramSocket = new DatagramSocket();
+            SubsribeToMessages();
+        }
 
-            DatagramSocket.MessageReceived += DatagramMessageReceived;
+        private void SubsribeToMessages()
+        {
+            _messageSubscribe = ObserveMessagesFromEvents.Subscribe(
+                msg =>
+                {
+                    _messageSubjekt.OnNext(msg);
+                },
+                ex =>
+                {
+                    _messageSubjekt.OnError(ex);
+                },
+                Dispose);
         }
 
         public void Dispose()
         {
-            ObsMsg.OnCompleted();
-            DatagramSocket.MessageReceived -= DatagramMessageReceived;
+            _messageSubscribe.Dispose();
             DatagramSocket.Dispose();
         }
     }

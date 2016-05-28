@@ -13,7 +13,7 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
-        private CancellationTokenSource _messageCanceller;
+        
 
         public async Task StartListeningAsync(
             int port = 0, 
@@ -27,15 +27,15 @@ namespace SocketLite.Services
 
             InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
-            _messageCanceller = new CancellationTokenSource();
+            MessageConcellationTokenSource = new CancellationTokenSource();
 
-            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token))
+            await Task.Run(() => RunMessageReceiver(MessageConcellationTokenSource.Token))
                 .ConfigureAwait(false);
         }
 
         public void StopListening()
         {
-            _messageCanceller.Cancel();
+            MessageConcellationTokenSource.Cancel();
             BackingUdpClient.Close();
         }
 

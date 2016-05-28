@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Networking.Sockets;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
@@ -14,9 +15,20 @@ namespace SocketLite.Services
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
         private StreamSocketListener _streamSocketListener;
-        private ISubject<ITcpSocketClient> ObsTcpSocket { get; } = new Subject<ITcpSocketClient>();
 
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => ObsTcpSocket.AsObservable();
+        private IDisposable _connectionSubscriber;
+
+        private readonly ISubject<ITcpSocketClient> _tcpSocketSubject = new Subject<ITcpSocketClient>();
+
+        private IObservable<ITcpSocketClient> ObserveTcpSocketConnectionsFromEvents =>
+            Observable.FromEventPattern<
+                TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>,
+                StreamSocketListenerConnectionReceivedEventArgs>(
+                    ev => _streamSocketListener.ConnectionReceived += ev,
+                    ev => _streamSocketListener.ConnectionReceived -= ev)
+                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize));
+
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => _tcpSocketSubject.AsObservable();
 
         public int LocalPort { get; internal set; }
 
@@ -38,7 +50,8 @@ namespace SocketLite.Services
 
             _streamSocketListener = new StreamSocketListener();
 
-            _streamSocketListener.ConnectionReceived += OnConnectionReceived;
+            //_streamSocketListener.ConnectionReceived += OnConnectionReceived;
+            SubscribeToConnections();
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
@@ -54,31 +67,30 @@ namespace SocketLite.Services
                 await _streamSocketListener.BindServiceNameAsync(localServiceName);
         }
 
-        public void OnConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs e)
+        private void SubscribeToConnections()
         {
-            try
-            {
-                var nativeSocket = e.Socket;
-
-                ObsTcpSocket.OnNext(new TcpSocketClient(nativeSocket, BufferSize));
-            }
-            catch (Exception ex)
-            {
-                ObsTcpSocket.OnError(ex);
-            }
+            _connectionSubscriber= ObserveTcpSocketConnectionsFromEvents.Subscribe(
+                connection =>
+                {
+                    _tcpSocketSubject.OnNext(connection);
+                },
+                ex =>
+                {
+                    _tcpSocketSubject.OnError(ex);
+                },
+                Dispose);
         }
 
         public void StopListening()
         {
-            _streamSocketListener.ConnectionReceived -= OnConnectionReceived;
+            _connectionSubscriber.Dispose();
             _streamSocketListener.Dispose();
         }
 
         public void Dispose()
         {
-            _streamSocketListener.ConnectionReceived -= OnConnectionReceived;
+            _connectionSubscriber.Dispose();
             _streamSocketListener.Dispose();
-            ObsTcpSocket.OnCompleted();
         }
     }
 }

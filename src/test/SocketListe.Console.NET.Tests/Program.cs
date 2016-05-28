@@ -17,10 +17,6 @@ namespace SocketListe.Console.NET.Tests
             StartTcpListener();
             StartUdpMulticastClient();
 
-           
-
-
-
             System.Console.ReadKey();
         }
 
@@ -28,18 +24,6 @@ namespace SocketListe.Console.NET.Tests
         {
             var tcpClient = new TcpSocketClient();
             await tcpClient.ConnectAsync("192.168.1.100", 1234);
-
-
-var communicationInterface = new CommunicationInterface();
-var allInterfaces = communicationInterface.GetAllInterfaces();
-
-var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IsUsable);
-
-var udpReceived = new UdpSocketReceiver();
-await udpReceived.StartListeningAsync(
-    port:1234, 
-    communicationInterface:firstUsableInterface, 
-    allowMultipleBindToSamePort: true);
 
             var helloWorld = "Hello World!";
 

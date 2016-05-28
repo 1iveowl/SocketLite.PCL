@@ -12,7 +12,6 @@ namespace SocketLite.Services
 {
     public class UdpSocketClient : UdpSocketBase, IUdpSocketClient
     {
-        private CancellationTokenSource _messageCanceller;
 
         public UdpSocketClient()
         {
@@ -44,17 +43,17 @@ namespace SocketLite.Services
                 BackingUdpClient.ExclusiveAddressUse = true;
                 BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
             }
-            
-            _messageCanceller = new CancellationTokenSource();
 
-            await Task.Run(() => BackingUdpClient.Connect(address, port), _messageCanceller.Token)
+            MessageConcellationTokenSource = new CancellationTokenSource();
+
+            await Task.Run(() => BackingUdpClient.Connect(address, port), MessageConcellationTokenSource.Token)
                 .WrapNativeSocketExceptions()
                 .ConfigureAwait(false);
         }
 
         public void Disconnect()
         {
-            _messageCanceller.Cancel();
+            MessageConcellationTokenSource.Cancel();
             BackingUdpClient.Close();
         }
     }

@@ -15,9 +15,11 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        private ISubject<IUdpMessage> ObsMsg { get; } = new Subject<IUdpMessage>();
+        protected CancellationTokenSource MessageConcellationTokenSource;
 
-        public IObservable<IUdpMessage> ObservableMessages => ObsMsg.AsObservable();
+        private ISubject<IUdpMessage> MessageSubject { get; } = new Subject<IUdpMessage>();
+
+        public IObservable<IUdpMessage> ObservableMessages => MessageSubject.AsObservable();
  
         protected void RunMessageReceiver(CancellationToken cancelToken)
         {
@@ -40,7 +42,7 @@ namespace SocketLite.Services.Base
                 // Message Received Args (OnNext)
                 args =>
                 {
-                    ObsMsg.OnNext(args);
+                    MessageSubject.OnNext(args);
                 },
                 // Exception (OnError)
                 ex =>
@@ -76,8 +78,9 @@ namespace SocketLite.Services.Base
 
         public void Dispose()
         {
+            MessageConcellationTokenSource.Cancel();
             BackingUdpClient.Close();
-            ObsMsg.OnCompleted();
+            MessageSubject.OnCompleted();
         }
     }
 }

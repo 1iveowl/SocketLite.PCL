@@ -23,8 +23,6 @@ namespace SocketLite.Services
         private string _multicastAddress;
         private int _multicastPort;
 
-        private CancellationTokenSource _messageCanceller;
-
         public int TTL { get; set; } = 1;
 
         public async Task JoinMulticastGroupAsync(
@@ -40,7 +38,7 @@ namespace SocketLite.Services
 
             InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
-            _messageCanceller = new CancellationTokenSource();
+            MessageConcellationTokenSource = new CancellationTokenSource();
 
             var multicastIp = IPAddress.Parse(multicastAddress);
             try
@@ -58,12 +56,12 @@ namespace SocketLite.Services
             _multicastAddress = multicastAddress;
             _multicastPort = port;
 
-            await Task.Run(() => RunMessageReceiver(_messageCanceller.Token)).ConfigureAwait(false);
+            await Task.Run(() => RunMessageReceiver(MessageConcellationTokenSource.Token)).ConfigureAwait(false);
         }
 
         public void Disconnect()
         {
-            _messageCanceller.Cancel();
+            MessageConcellationTokenSource.Cancel();
             BackingUdpClient.Close();
 
             _multicastAddress = null;

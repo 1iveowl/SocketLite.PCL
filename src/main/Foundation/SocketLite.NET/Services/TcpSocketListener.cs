@@ -18,9 +18,9 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        private ISubject<ITcpSocketClient> ObsTcpSocket { get; } = new Subject<ITcpSocketClient>();
+        private readonly ISubject<ITcpSocketClient> _tcpSocketSubject = new Subject<ITcpSocketClient>();
 
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => ObsTcpSocket.AsObservable();
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => _tcpSocketSubject.AsObservable();
 
         private TcpListener _tcpListener;
         private CancellationTokenSource _listenCanceller;
@@ -60,7 +60,7 @@ namespace SocketLite.Services
                 throw new PclSocketException(ex);
             }
 
-            await Task.Run(() => WaitForConnections(_listenCanceller.Token)).ConfigureAwait(false);
+            await Task.Run(() => ListenForConnections(_listenCanceller.Token)).ConfigureAwait(false);
         }
 
         public void StopListening()
@@ -78,7 +78,7 @@ namespace SocketLite.Services
             _tcpListener = null;
         }
 
-        private void WaitForConnections(CancellationToken cancelToken)
+        private void ListenForConnections(CancellationToken cancelToken)
         {
             var observeTcpClient = Observable.While(
                 () => !cancelToken.IsCancellationRequested,
@@ -88,7 +88,7 @@ namespace SocketLite.Services
                 tcpClient =>
                 {
                     var wrappedTcpClint = new TcpSocketClient(tcpClient, BufferSize);
-                    ObsTcpSocket.OnNext(wrappedTcpClint);
+                    _tcpSocketSubject.OnNext(wrappedTcpClint);
                 },
                 ex =>
                 {
@@ -101,7 +101,7 @@ namespace SocketLite.Services
         public void Dispose()
         {
             _tcpListener.Stop();
-            ObsTcpSocket.OnCompleted();
+            _listenCanceller.Cancel();
         }
     }
 }
