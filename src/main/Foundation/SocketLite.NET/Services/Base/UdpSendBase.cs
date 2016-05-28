@@ -15,6 +15,11 @@ namespace SocketLite.Services.Base
 
         protected UdpClient BackingUdpClient;
 
+        protected UdpSendBase()
+        {
+            
+        }
+
         public virtual async Task SendAsync(byte[] data)
         {
             await BackingUdpClient

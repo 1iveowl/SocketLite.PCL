@@ -67,7 +67,7 @@ namespace SocketLite.Services.Base
 
             ConfigureDatagramSocket(allowMultipleBindToSamePort);
 
-            var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
+            var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
 
             if (adapter != null)
             {

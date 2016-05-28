@@ -9,7 +9,7 @@ using ISocketLite.PCL.Interface;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationInterface : ICommunicationInterface
+    public partial class CommunicationsInterface : ICommunicationInterface
     {
         protected static IPAddress GetSubnetMask(UnicastIPAddressInformation ip)
         {

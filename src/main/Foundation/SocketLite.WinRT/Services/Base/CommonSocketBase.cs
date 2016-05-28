@@ -9,6 +9,10 @@ namespace SocketLite.Services.Base
 {
     public abstract class CommonSocketBase
     {
+        protected CommonSocketBase()
+        {
+            
+        }
         protected void CheckCommunicationInterface(ICommunicationInterface communicationInterface)
         {
             if (communicationInterface != null && !communicationInterface.IsUsable)

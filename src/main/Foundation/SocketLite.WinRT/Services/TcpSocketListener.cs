@@ -55,7 +55,7 @@ namespace SocketLite.Services
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
-            var adapter = (communicationInterface as CommunicationInterface)?.NativeNetworkAdapter;
+            var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
 
             if (adapter != null)
             {

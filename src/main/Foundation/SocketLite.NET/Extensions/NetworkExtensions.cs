@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using ISocketLite.PCL.Model;
-using CommunicationInterface = SocketLite.Model.CommunicationInterface;
+using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
 
 namespace SocketLite.Extensions
 {

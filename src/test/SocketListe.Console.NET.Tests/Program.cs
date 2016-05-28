@@ -14,6 +14,10 @@ namespace SocketListe.Console.NET.Tests
     {
         static void Main(string[] args)
         {
+            var comm = new CommunicationsInterface();
+
+            var allComm = comm.GetAllInterfaces();
+
             StartTcpListener();
             StartUdpMulticastClient();
 

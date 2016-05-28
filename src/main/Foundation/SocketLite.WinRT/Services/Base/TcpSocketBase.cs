@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
+using SocketLite.Services.Base;
 
 namespace SocketLite.Services.Base
 {

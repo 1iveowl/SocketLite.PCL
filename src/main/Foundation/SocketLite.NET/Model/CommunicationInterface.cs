@@ -10,7 +10,7 @@ using SocketLite.Extensions;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationInterface : ICommunicationInterface
+    public partial class CommunicationsInterface : ICommunicationInterface
     {
         public string NativeInterfaceId { get; internal set; }
 
@@ -39,7 +39,16 @@ namespace SocketLite.Model
             return new IPEndPoint(NativeIpAddress, port);
         }
 
-        internal static CommunicationInterface FromNativeInterface(NetworkInterface nativeInterface)
+        
+
+        public IEnumerable<ICommunicationInterface> GetAllInterfaces()
+        {
+            return NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Select(FromNativeInterface);
+        }
+
+        internal static CommunicationsInterface FromNativeInterface(NetworkInterface nativeInterface)
         {
             var ip =
                 nativeInterface
@@ -55,11 +64,11 @@ namespace SocketLite.Model
                     .Select(a => a.Address.ToString())
                     .FirstOrDefault();
 
-            var netmask = ip != null ? CommunicationInterface.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
+            var netmask = ip != null ? CommunicationsInterface.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
 
             var broadcast = (ip != null && netmask != null) ? ip.Address.GetBroadcastAddress(netmask).ToString() : null;
 
-            return new CommunicationInterface
+            return new CommunicationsInterface
             {
                 NativeInterfaceId = nativeInterface.Id,
                 NativeIpAddress = ip?.Address,
@@ -70,13 +79,6 @@ namespace SocketLite.Model
                 ConnectionStatus = nativeInterface.OperationalStatus.ToCommsInterfaceStatus(),
                 NativeInterface = nativeInterface
             };
-        }
-
-        public IEnumerable<ICommunicationInterface> GetAllInterfaces()
-        {
-            return NetworkInterface
-                .GetAllNetworkInterfaces()
-                .Select(FromNativeInterface);
         }
     }
 }

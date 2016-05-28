@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using SocketLite.Extensions;
 using SocketLite.Services.Base;
-using CommunicationInterface = SocketLite.Model.CommunicationInterface;
+using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 

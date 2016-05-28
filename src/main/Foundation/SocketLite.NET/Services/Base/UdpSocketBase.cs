@@ -15,12 +15,15 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        
 
         private ISubject<IUdpMessage> MessageSubject { get; } = new Subject<IUdpMessage>();
 
         public IObservable<IUdpMessage> ObservableMessages => MessageSubject.AsObservable();
- 
+
+        protected UdpSocketBase()
+        { }
+
+
         protected void RunMessageReceiver(CancellationToken cancelToken)
         {
             var observeUdpReceive = Observable.While(

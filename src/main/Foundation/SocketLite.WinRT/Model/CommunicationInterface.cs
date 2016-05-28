@@ -10,7 +10,7 @@ using SocketLite.Extensions;
 namespace SocketLite.Model
 {
 
-    public class CommunicationInterface : ICommunicationInterface
+    public class CommunicationsInterface : ICommunicationInterface
     {
         public string NativeInterfaceId { get; internal set; }
 
@@ -61,7 +61,7 @@ namespace SocketLite.Model
                             ? connectProfile.ProfileName 
                             : "{ unknown }";
 
-                        return new CommunicationInterface
+                        return new CommunicationsInterface
                         {
                             NativeInterfaceId = adapterId,
                             Name = adapterName,

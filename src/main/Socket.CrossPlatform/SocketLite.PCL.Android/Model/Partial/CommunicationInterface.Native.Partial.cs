@@ -7,7 +7,7 @@ using static SocketLite.Extensions.AndroidNetworkExtensions;
 
 namespace SocketLite.Model
 {
-    public partial class CommunicationInterface
+    public partial class CommunicationsInterface
     {
         protected static IPAddress GetSubnetMask(UnicastIPAddressInformation ip)
         {

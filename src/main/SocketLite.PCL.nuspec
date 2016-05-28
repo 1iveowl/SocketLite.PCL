@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>1.0.6</version>
+    <version>1.0.8</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Ryan Davis, Jasper H. Bojsen</authors>
     <owners>Ryan Davis, Jasper H. Bojsen</owners>
@@ -30,16 +30,6 @@
         target="lib\portable-net45+netcore45\ISocketLite.PCL.dll" />
       <file src="bin\Release\ISocketLite.PCL.pdb"
         target="lib\portable-net45+netcore45\ISocketLite.PCL.pdb" />
-        
-        
-      <!--<file src="bin\Release\SocketLite.dll"
-          target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.dll" />
-      <file src="bin\Release\SocketLite.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\SocketLite.pdb" />
-      <file src="bin\Release\ISocketLite.PCL.dll"
-        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.dll" />
-      <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+uap10.0\ISocketLite.PCL.pdb" />          -->
 
   <!--Xamarin.Android-->
       <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
