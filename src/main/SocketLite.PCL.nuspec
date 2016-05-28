@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>1.0.2</version>
+    <version>1.0.4</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Ryan Davis, Jasper H. Bojsen</authors>
     <owners>Ryan Davis, Jasper H. Bojsen</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
-    <releaseNotes>First release</releaseNotes>
+    <releaseNotes>Improvements to internal Rx implementation</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Socket, Tcp, Udp, Xamarin, PCL, ios, android, uwp, windows 10</tags>
     <dependencies>
@@ -69,27 +69,27 @@
       <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.dll"
         target="lib\uap10.0\ISocketLite.PCL.dll" />
       <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\uap10.0\ISocketLite.PCL.dll.pdb" />
+        target="lib\uap10.0\ISocketLite.PCL.pdb" />
         
 <!--Windows Desktop-->
-      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.NET.dll"
-          target="lib\net45\SocketLite.NET.dll" />
-      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.NET.pdb"
-        target="lib\net45\SocketLite.NET.pdb" />
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
+          target="lib\net45\SocketLite.dll" />
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.pdb"
+        target="lib\net45\SocketLite.pdb" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.dll"
         target="lib\net45\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\net45\ISocketLite.PCL.dll.pdb" />
+        target="lib\net45\ISocketLite.PCL.pdb" />
         
 <!--Windows 8.x & Windows Phone 81-->
-      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.dll"
-          target="lib\win8+wpa81+wp8\SocketLite.WinRT.dll" />
-      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.WinRT.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.WinRT.pdb" />
+      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
+          target="lib\win8+wpa81+wp8\SocketLite.dll" />
+      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.pdb"
+        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.pdb" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
         target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll.pdb" />                       
+        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       
              
   </files>
 </package>
