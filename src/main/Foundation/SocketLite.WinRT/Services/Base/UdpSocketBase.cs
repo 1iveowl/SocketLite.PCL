@@ -54,6 +54,7 @@ namespace SocketLite.Services.Base
         protected UdpSocketBase()
         {
             InitializeUdpSocket();
+            SubsribeToMessages();
 
         }
 
@@ -85,12 +86,13 @@ namespace SocketLite.Services.Base
             DatagramSocket.Dispose();
             _messageSubscribe.Dispose();
             InitializeUdpSocket();
+            SubsribeToMessages();
         }
 
-        private void InitializeUdpSocket()
+        protected void InitializeUdpSocket()
         {
             DatagramSocket = new DatagramSocket();
-            SubsribeToMessages();
+            //SubsribeToMessages();
         }
 
         private void SubsribeToMessages()

@@ -49,7 +49,6 @@ namespace SocketLite.Services
         public TcpSocketClient() : base(0)
         {
             tcpClient = new TcpClient();
-
         }
 
         public TcpSocketClient(int bufferSize) : base(bufferSize)

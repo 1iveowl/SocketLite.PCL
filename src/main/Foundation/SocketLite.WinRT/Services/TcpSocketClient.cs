@@ -11,6 +11,9 @@ namespace SocketLite.Services
 {
     public class TcpSocketClient : TcpSocketBase, ITcpSocketClient
     {
+        public string LocalPort => Socket.Information.LocalPort;
+        public string LocalAddress => Socket.Information.LocalAddress.CanonicalName;
+
         public StreamSocket Socket { get; private set; }
 
         public Stream ReadStream => Socket.InputStream.AsStreamForRead(BufferSize);

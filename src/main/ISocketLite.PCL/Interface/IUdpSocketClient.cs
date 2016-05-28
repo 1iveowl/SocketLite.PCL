@@ -10,6 +10,8 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketClient : IDisposable
     {
+        //string LocalPort { get; }
+        //string LocalAddress { get; }
         Task ConnectAsync(
             string address, 
             int port, 

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking;
-using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
-using SocketLite.Model;
 using SocketLite.Services.Base;
 
 namespace SocketLite.Services
@@ -36,9 +30,6 @@ namespace SocketLite.Services
             var hostName = new HostName(multicastAddress);
             var serviceName = port.ToString();
 
-//#if WINDOWS_UWP
-//            DatagramSocket.Control.MulticastOnly = true;
-//#endif
             await BindeUdpServiceNameAsync(communicationInterface, serviceName, allowMultipleBindToSamePort)
                 .ConfigureAwait(false);
 

@@ -13,6 +13,22 @@ namespace SocketLite.Services.Base
     {
         protected DatagramSocket DatagramSocket;
 
+        public string LocalPort => DatagramSocket.Information.LocalPort;
+
+        public string LocalAddress => DatagramSocket.Information.LocalAddress.CanonicalName;
+
+        protected UdpSendBase()
+        {
+            
+        }
+
+        protected void InitializeUdpSocket()
+        {
+            DatagramSocket = new DatagramSocket();
+            //SubsribeToMessages();
+        }
+
+
         public virtual async Task SendAsync(byte[] data)
         {
             await SendAsync(data, data.Length).ConfigureAwait(false);
