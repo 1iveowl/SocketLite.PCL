@@ -42,6 +42,8 @@ namespace SocketLite.Extensions
 
         public static byte[] GetAddressBytes(string ipAddress)
         {
+            if (ipAddress == null) return new byte[4] {0, 0, 0, 0};
+
             var ipBytes = new byte[4];
 
             var parsesResults =

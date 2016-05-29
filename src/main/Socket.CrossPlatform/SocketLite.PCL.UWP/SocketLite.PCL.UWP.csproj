@@ -110,6 +110,12 @@
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Extensions\NetworkExtensions.cs">
       <Link>Extensions\NetworkExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.WinRT\Helper\AdapterInfo.cs">
+      <Link>Helper\AdapterInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Foundation\SocketLite.WinRT\Helper\AdvancedAdapterInfo.cs">
+      <Link>Helper\AdvancedAdapterInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Foundation\SocketLite.WinRT\Model\CommunicationInterface.cs">
       <Link>Model\CommunicationInterface.cs</Link>
     </Compile>
@@ -152,7 +158,9 @@
       <Name>ISocketLite.PCL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Partial\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

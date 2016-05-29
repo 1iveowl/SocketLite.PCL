@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SocketLite.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,6 +32,10 @@ namespace UwpTestApp
 
         private async void StartTest()
         {
+            var comm = new CommunicationsInterface();
+            var all = comm.GetAllInterfaces();
+            var one = all.FirstOrDefault(x => x.GatewayAddress != null);
+
             var tcpListener = new SocketLite.Services.TcpSocketListener();
             var udpMulticastListener = new SocketLite.Services.UdpSocketMulticastClient();
 

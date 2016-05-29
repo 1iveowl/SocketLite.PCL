@@ -27,6 +27,7 @@ namespace SocketLite.Model
         private readonly string[] _loopbackAddresses = { "127.0.0.1", "localhost" };
 
         public bool IsLoopback => _loopbackAddresses.Contains(IpAddress);
+        //public bool IsInternetConnected { get; internal set; }
 
         public CommunicationConnectionStatus ConnectionStatus { get; internal set; }
 

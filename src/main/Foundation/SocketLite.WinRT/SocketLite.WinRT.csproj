@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NetworkExtensions.cs" />
+    <Compile Include="Helper\AdapterInfo.cs" />
+    <Compile Include="Helper\AdvancedAdapterInfo.cs" />
     <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Services\Base\CommonSocketBase.cs" />
     <Compile Include="Services\Base\TcpSocketBase.cs" />

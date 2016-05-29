@@ -19,6 +19,8 @@ namespace SocketLite.Model
         public CommunicationConnectionStatus ConnectionStatus { get; } = CommunicationConnectionStatus.Testing;
         public bool IsUsable { get; } = false;
         public bool IsLoopback { get; } = false;
+        //public bool IsInternetConnected { get; } = false;
+
         public IEnumerable<ICommunicationInterface> GetAllInterfaces()
         {
             throw new NotImplementedException(BaitNoSwitch);

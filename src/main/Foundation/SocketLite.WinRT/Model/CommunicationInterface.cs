@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
@@ -28,6 +29,8 @@ namespace SocketLite.Model
 
         public bool IsLoopback => _loopbackAddresses.Contains(IpAddress);
 
+        //public bool IsInternetConnected { get; internal set; }
+
         public CommunicationConnectionStatus ConnectionStatus { get; internal set; }
 
         protected internal HostName NativeHostName;
@@ -36,6 +39,7 @@ namespace SocketLite.Model
 
         public IEnumerable<ICommunicationInterface> GetAllInterfaces()
         {
+            var advanvedInfoList= SocketLite.Helper.AdapterInfo.GetAdapters();
 
             var profiles = NetworkInformation
                 .GetConnectionProfiles()
@@ -50,28 +54,36 @@ namespace SocketLite.Model
                                 && h.IPInformation.PrefixLength != null)
                     .Select(h =>
                     {
-                        var adapter = h.IPInformation.NetworkAdapter;
-                        var adapterId = adapter.NetworkAdapterId.ToString();
+                        var adapter = h.IPInformation?.NetworkAdapter;
+                        var adapterId = adapter?.NetworkAdapterId.ToString();
                         var subnetAddress = NetworkExtensions.GetSubnetAddress(
-                            h.CanonicalName, 
+                            h.CanonicalName,
                             h.IPInformation.PrefixLength.Value);
 
+                        //var t = profiles[adapterId].NetworkAdapter;
+                        //var u = t.GetConnectedProfileAsync();
+                        //var r = u.GetResults();
+                        //t.NetworkItem.GetNetworkTypes().
+
                         ConnectionProfile connectProfile;
-                        var adapterName = profiles.TryGetValue(adapterId, out connectProfile) 
-                            ? connectProfile.ProfileName 
+                        var adapterName = profiles.TryGetValue(adapterId, out connectProfile)
+                            ? connectProfile.ProfileName
                             : "{ unknown }";
 
                         return new CommunicationsInterface
                         {
                             NativeInterfaceId = adapterId,
+                            //IsInternetConnected = profiles?[adapterId]?.NetworkAdapter?.NetworkItem?.GetNetworkTypes() == NetworkTypes.Internet,
+                            GatewayAddress = advanvedInfoList?.FirstOrDefault(x => x?.AdapterId == adapterId)?.Gateway,
                             Name = adapterName,
                             IpAddress = h.CanonicalName,
                             BroadcastAddress = NetworkExtensions.GetBroadcastAddress(IpAddress, subnetAddress),
                             NativeHostName = h,
-                            NativeNetworkAdapter =  adapter,
+                            NativeNetworkAdapter = adapter,
+
                             ConnectionStatus = CommunicationConnectionStatus.Unknown
                         };
-                    }); 
+                    });
         }
     }
 }
