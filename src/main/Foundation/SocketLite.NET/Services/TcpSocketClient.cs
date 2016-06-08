@@ -62,14 +62,18 @@ namespace SocketLite.Services
             InitializeWriteStream();
         }
 
-        public async Task ConnectAsync(
+        private async Task ConnectAsync(
             string address,
             int port,
             bool secure = false,
             CancellationToken cancellationToken = default(CancellationToken),
-            bool allowMultipleBindToSamePort = false)
+            bool ignoreServerCertificateErrors = false)
         {
-            tcpClient.ExclusiveAddressUse = !allowMultipleBindToSamePort;
+
+            if (ignoreServerCertificateErrors)
+            {
+                ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            }
 
             var connectTask = tcpClient.ConnectAsync(address, port).WrapNativeSocketExceptions();
 
@@ -112,10 +116,15 @@ namespace SocketLite.Services
             string address,
             string service,
             bool secure = false,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default(CancellationToken),
+            bool ignoreServerCertificateErrors = false)
         {
             var port = ServiceNames.PortForTcpServiceName(service);
-            await ConnectAsync(address, port, secure, cancellationToken).ConfigureAwait(false);
+            await ConnectAsync(
+                address, 
+                port, secure, 
+                cancellationToken, 
+                ignoreServerCertificateErrors).ConfigureAwait(false);
         }
 
         public void Disconnect()

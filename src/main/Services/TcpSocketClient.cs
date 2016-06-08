@@ -23,7 +23,12 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
-        public Task ConnectAsync(string address, string service, bool secure = false, CancellationToken cancellationToken = default(CancellationToken))
+        public Task ConnectAsync(
+            string address, 
+            string service, 
+            bool secure = false,
+            CancellationToken cancellationToken = new CancellationToken(), 
+            bool ignoreServerCertificateErrors = false)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

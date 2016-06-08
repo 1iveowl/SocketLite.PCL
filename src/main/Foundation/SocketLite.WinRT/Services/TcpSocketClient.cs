@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 
@@ -38,19 +37,50 @@ namespace SocketLite.Services
         {
             Socket = nativeSocket;
         }
-        public async Task ConnectAsync(string address, int port, bool secure = false)
-        {
-            var service = port.ToString();
-            await ConnectAsync(address, service, secure).ConfigureAwait(false);
-        }
 
-        public async Task ConnectAsync(string address, string service, bool secure = false, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task ConnectAsync(
+            string address, 
+            string service, 
+            bool secure = false, 
+            CancellationToken cancellationToken = default(CancellationToken), 
+            bool ignoreServerCertificateErrors = false)
         {
             var hostName = new HostName(address);
             var remoteServiceName = service;
             var socketProtectionLevel = secure ? SocketProtectionLevel.Tls10 : SocketProtectionLevel.PlainSocket;
 
-            await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+            try
+            {
+                await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+            }
+            catch (Exception ex)
+            {
+                if (ignoreServerCertificateErrors)
+                {
+                    Socket.Control.IgnorableServerCertificateErrors.Clear();
+
+                    foreach (var ignorableError in Socket.Information.ServerCertificateErrors)
+                    {
+                        Socket.Control.IgnorableServerCertificateErrors.Add(ignorableError);
+                    }
+
+                    //Try again
+                    try
+                    {
+                        await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+                    }
+                    catch (Exception retryEx)
+                    {
+
+                        throw retryEx;
+                    }
+                }
+                else
+                {
+                    throw ex;
+                }
+                
+            }
         }
 
         public void Disconnect()

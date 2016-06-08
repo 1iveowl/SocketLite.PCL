@@ -27,7 +27,7 @@ namespace SocketListe.Console.NET.Tests
         private static async void StartTcpClient()
         {
             var tcpClient = new TcpSocketClient();
-            await tcpClient.ConnectAsync("192.168.1.100", 1234);
+            await tcpClient.ConnectAsync("192.168.1.100", "1234");
 
             var helloWorld = "Hello World!";
 

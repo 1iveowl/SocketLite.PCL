@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,6 +29,26 @@ namespace UwpTestApp
         {
             this.InitializeComponent();
             StartTest();
+            //StartTlsClient();
+        }
+
+        private async void StartTlsClient()
+        {
+            var comm = new CommunicationsInterface();
+            var all = comm.GetAllInterfaces();
+            var one = all.FirstOrDefault(x => x.GatewayAddress != null);
+
+            var tcpClient = new SocketLite.Services.TcpSocketClient();
+            try
+            {
+                await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", secure: true, ignoreServerCertificateErrors:true);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
 
         private async void StartTest()

@@ -17,7 +17,8 @@ namespace ISocketLite.PCL.Interface
             string address, 
             string service, 
             bool secure = false, 
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default(CancellationToken), 
+            bool ignoreServerCertificateErrors = false);
 
         void Disconnect();
 
