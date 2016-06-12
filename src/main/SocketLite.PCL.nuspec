@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Ryan Davis, Jasper H. Bojsen</authors>
     <owners>Ryan Davis, Jasper H. Bojsen</owners>
