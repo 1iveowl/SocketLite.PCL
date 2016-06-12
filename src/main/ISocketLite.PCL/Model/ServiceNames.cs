@@ -8,16 +8,21 @@ namespace ISocketLite.PCL.Model
 {
     public static class ServiceNames
     {
-        public static int PortForTcpServiceName(string sn)
+        public static ushort PortForTcpServiceName(string sn)
         {
-            var port = 0;
+            ushort port = 0;
             if (!TcpServiceNames.TryGetValue(sn, out port))
-                throw new ArgumentException($"The service name '{sn}' was not recognized.");
+            {
+                if (!ushort.TryParse(sn, out port))
+                {
+                    throw new ArgumentException("Invalid service name or port number");
+                }
+            }
 
             return port;
         }
 
-        private static readonly Dictionary<string, int> TcpServiceNames = new Dictionary<string, int>
+        private static readonly Dictionary<string, ushort> TcpServiceNames = new Dictionary<string, ushort>
         {
             {"echo", 7},
             {"discard", 9},
@@ -158,13 +163,15 @@ namespace ISocketLite.PCL.Model
             {"msfw-control", 3847},
             {"msdts1", 3882},
             {"sdp-portmapper", 3935},
+
             {"net-device", 4350},
             {"ipsec-msft", 4500},
             {"llmnr", 5355},
             {"wsd", 5357},
-            {"wsd", 5358},
+
             {"rrac", 5678},
             {"dccm", 5679},
+
             {"ms-licensing", 5720},
             {"directplay8", 6073},
             {"man", 9535},

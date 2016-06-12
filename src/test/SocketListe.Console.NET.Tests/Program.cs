@@ -18,7 +18,9 @@ namespace SocketListe.Console.NET.Tests
 
             var allComm = comm.GetAllInterfaces();
 
+            StartTcpClient();
             StartTcpListener();
+           
             StartUdpMulticastClient();
 
             System.Console.ReadKey();

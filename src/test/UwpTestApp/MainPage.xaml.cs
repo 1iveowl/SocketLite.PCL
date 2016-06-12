@@ -34,9 +34,6 @@ namespace UwpTestApp
 
         private async void StartTlsClient()
         {
-            var comm = new CommunicationsInterface();
-            var all = comm.GetAllInterfaces();
-            var one = all.FirstOrDefault(x => x.GatewayAddress != null);
 
             var tcpClient = new SocketLite.Services.TcpSocketClient();
             try
