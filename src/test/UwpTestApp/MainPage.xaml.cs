@@ -28,8 +28,8 @@ namespace UwpTestApp
         public MainPage()
         {
             this.InitializeComponent();
-            StartTest();
-            //StartTlsClient();
+            //StartTest();
+            StartTlsClient();
         }
 
         private async void StartTlsClient()

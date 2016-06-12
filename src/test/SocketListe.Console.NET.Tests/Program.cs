@@ -14,9 +14,9 @@ namespace SocketListe.Console.NET.Tests
     {
         static void Main(string[] args)
         {
-            var comm = new CommunicationsInterface();
+            //var comm = new CommunicationsInterface();
 
-            var allComm = comm.GetAllInterfaces();
+            //var allComm = comm.GetAllInterfaces();
 
             StartTcpClient();
             StartTcpListener();
@@ -29,7 +29,7 @@ namespace SocketListe.Console.NET.Tests
         private static async void StartTcpClient()
         {
             var tcpClient = new TcpSocketClient();
-            await tcpClient.ConnectAsync("192.168.1.100", "1234");
+            await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", false);
 
             var helloWorld = "Hello World!";
 
