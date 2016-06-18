@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SocketLite.Model;
 using SocketLite.Services;
@@ -29,7 +30,7 @@ namespace SocketListe.Console.NET.Tests
         private static async void StartTcpClient()
         {
             var tcpClient = new TcpSocketClient();
-            await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", false);
+            await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", true, CancellationToken.None, ignoreServerCertificateErrors:true);
 
             var helloWorld = "Hello World!";
 

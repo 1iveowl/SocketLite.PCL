@@ -62,6 +62,12 @@ namespace SocketLite.Services
             InitializeWriteStream();
         }
 
+        private bool CertificateErrorHandler(object sender, X509Certificate cert, X509Chain chain,
+            SslPolicyErrors sslError)
+        {
+            return true;
+        }
+
         private async Task ConnectAsync(
             string address,
             int port,
@@ -70,10 +76,16 @@ namespace SocketLite.Services
             bool ignoreServerCertificateErrors = false)
         {
 
+
             if (ignoreServerCertificateErrors)
             {
-                ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                ServicePointManager.ServerCertificateValidationCallback += CertificateErrorHandler;
+                //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertificateErrorHandler);
+
+
             }
+
+            
 
             var connectTask = tcpClient.ConnectAsync(address, port).WrapNativeSocketExceptions();
 
@@ -101,15 +113,17 @@ namespace SocketLite.Services
             }
 
             canceller.Dispose();
-
             InitializeWriteStream();
 
             if (secure)
             {
-                var secureStream = new SslStream(_writeStream, true, ServerValidationCallback);
-                secureStream.AuthenticateAsClient(address, null, System.Security.Authentication.SslProtocols.Tls, false);
+                var secureStream = new SslStream(_writeStream, true, CertificateErrorHandler);
+                secureStream.AuthenticateAsClient(address, null, System.Security.Authentication.SslProtocols.Tls12, false);
                 _secureStream = secureStream;
             }
+
+
+
         }
 
         public async Task ConnectAsync(

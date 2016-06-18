@@ -38,7 +38,7 @@ namespace UwpTestApp
             var tcpClient = new SocketLite.Services.TcpSocketClient();
             try
             {
-                await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", secure: true, ignoreServerCertificateErrors:true);
+                await tcpClient.ConnectAsync("abc.123.test", "8088", secure: true, ignoreServerCertificateErrors:true);
             }
             catch (Exception)
             {
