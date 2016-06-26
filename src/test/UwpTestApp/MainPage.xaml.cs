@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,8 +29,8 @@ namespace UwpTestApp
         public MainPage()
         {
             this.InitializeComponent();
-            //StartTest();
-            StartTlsClient();
+            StartTest();
+            //StartTlsClient();
         }
 
         private async void StartTlsClient()
@@ -42,10 +43,8 @@ namespace UwpTestApp
             }
             catch (Exception)
             {
-                
                 throw;
             }
-            
         }
 
         private async void StartTest()
@@ -57,14 +56,7 @@ namespace UwpTestApp
             var tcpListener = new SocketLite.Services.TcpSocketListener();
             var udpMulticastListener = new SocketLite.Services.UdpSocketMulticastClient();
 
-            var tcpListenerSubscribe = tcpListener
-                .ObservableTcpSocket
-                .ObserveOnDispatcher()
-                .Subscribe(
-                tcpClient =>
-                {
-                    RemoteClient.Text = tcpClient.RemoteAddress + ":" + tcpClient.RemotePort.ToString();
-                });
+
 
             var udpListenerSubscribe = udpMulticastListener.ObservableMessages
                 .ObserveOnDispatcher().Subscribe(
@@ -75,14 +67,35 @@ namespace UwpTestApp
                     });
 
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
+
+            var tcpListenerSubscribe = StartTcpListener(tcpListener);
+
+
             await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
+
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
             // Testing that subscription can "survive" a disconnect and connect again.
             tcpListener.StopListening();
+            tcpListenerSubscribe.Dispose();
             udpMulticastListener.Disconnect();
 
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
+            tcpListenerSubscribe = StartTcpListener(tcpListener);
+
             await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
+        }
+
+        private IDisposable StartTcpListener(SocketLite.Services.TcpSocketListener tcpListener)
+        {
+            return tcpListener
+                .ObservableTcpSocket
+                .ObserveOnDispatcher()
+                .Subscribe(
+                tcpClient =>
+                {
+                    RemoteClient.Text = tcpClient.RemoteAddress + ":" + tcpClient.RemotePort.ToString();
+                });
         }
     }
 }

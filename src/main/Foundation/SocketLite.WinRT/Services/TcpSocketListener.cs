@@ -18,7 +18,11 @@ namespace SocketLite.Services
 
         private IDisposable _connectionSubscriber;
 
-        private readonly ISubject<ITcpSocketClient> _tcpSocketSubject = new Subject<ITcpSocketClient>();
+        public IObservable<ITcpSocketClient> ObservableTcpSocket =>
+            _connectableObservableTcpSocket.Select(
+                socketClient => socketClient); 
+
+        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket;
 
         private IObservable<ITcpSocketClient> ObserveTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
@@ -27,8 +31,6 @@ namespace SocketLite.Services
                     ev => _streamSocketListener.ConnectionReceived += ev,
                     ev => _streamSocketListener.ConnectionReceived -= ev)
                 .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize));
-
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => _tcpSocketSubject.AsObservable();
 
         public int LocalPort { get; internal set; }
 
@@ -50,8 +52,7 @@ namespace SocketLite.Services
 
             _streamSocketListener = new StreamSocketListener();
 
-            //_streamSocketListener.ConnectionReceived += OnConnectionReceived;
-            SubscribeToConnections();
+            _connectableObservableTcpSocket = ObserveTcpSocketConnectionsFromEvents.Publish();
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
@@ -60,25 +61,15 @@ namespace SocketLite.Services
             if (adapter != null)
             {
                 await _streamSocketListener.BindServiceNameAsync(
-                    localServiceName, SocketProtectionLevel.PlainSocket, 
+                    localServiceName, SocketProtectionLevel.PlainSocket,
                     adapter);
             }
             else
+            {
                 await _streamSocketListener.BindServiceNameAsync(localServiceName);
-        }
+            }
 
-        private void SubscribeToConnections()
-        {
-            _connectionSubscriber= ObserveTcpSocketConnectionsFromEvents.Subscribe(
-                connection =>
-                {
-                    _tcpSocketSubject.OnNext(connection);
-                },
-                ex =>
-                {
-                    _tcpSocketSubject.OnError(ex);
-                },
-                Dispose);
+            _connectionSubscriber = _connectableObservableTcpSocket.Connect();
         }
 
         public void StopListening()
@@ -89,8 +80,7 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _connectionSubscriber.Dispose();
-            _streamSocketListener.Dispose();
+            StopListening();
         }
     }
 }

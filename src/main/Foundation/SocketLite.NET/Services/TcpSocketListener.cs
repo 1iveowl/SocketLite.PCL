@@ -18,21 +18,58 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        private readonly ISubject<ITcpSocketClient> _tcpSocketSubject = new Subject<ITcpSocketClient>();
 
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => _tcpSocketSubject.AsObservable();
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(
+            x =>
+            {
+                System.Diagnostics.Debug.WriteLine($"Ip: {x.RemoteAddress}, Port:{x.RemotePort}");
+                return x;
+            });
+
+
+        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket;
+
+
+        private IObservable<ITcpSocketClient> _observableTcpSocket => ObserveTcpClientFromAsync.Select(
+            tcpClient =>
+            {
+                var client = new TcpSocketClient(tcpClient, BufferSize);
+                return client;
+            })
+            .Where(tcpClient => tcpClient != null);
+
+        private IObservable<TcpClient> ObserveTcpClientFromAsync => Observable.While(
+            () => !_listenCanceller.IsCancellationRequested,
+            Observable.FromAsync(GetTcpClientAsync));
 
         private TcpListener _tcpListener;
-        private CancellationTokenSource _listenCanceller;
+        private readonly CancellationTokenSource _listenCanceller = new CancellationTokenSource();
+        private IDisposable _tcpClientSubscribe;
 
-        public int LocalPort => ((IPEndPoint)(_tcpListener.LocalEndpoint)).Port;
+        public int LocalPort => ((IPEndPoint)_tcpListener.LocalEndpoint).Port;
 
         public TcpSocketListener() : base(0)
         {
         }
 
+        private async Task<TcpClient> GetTcpClientAsync()
+        {
+            TcpClient tcpClient = null;
+            try
+            {
+                tcpClient = await _tcpListener.AcceptTcpClientAsync();
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+            
+            return tcpClient;
+        }
+
         public TcpSocketListener(int bufferSize) : base(bufferSize)
         {
+
         }
 
         public async Task StartListeningAsync(
@@ -44,12 +81,12 @@ namespace SocketLite.Services
 
             var ipAddress = listenOn != null ? ((CommunicationInterface)listenOn).NativeIpAddress : IPAddress.Any;
 
-            _listenCanceller = new CancellationTokenSource();
-
             _tcpListener = new TcpListener(ipAddress, port)
             {
                 ExclusiveAddressUse = !allowMultipleBindToSamePort
             };
+
+            _connectableObservableTcpSocket = _observableTcpSocket.Publish();
 
             try
             {
@@ -60,7 +97,7 @@ namespace SocketLite.Services
                 throw new PclSocketException(ex);
             }
 
-            await Task.Run(() => ListenForConnections(_listenCanceller.Token)).ConfigureAwait(false);
+            _tcpClientSubscribe = _connectableObservableTcpSocket.Connect();
         }
 
         public void StopListening()
@@ -78,28 +115,9 @@ namespace SocketLite.Services
             _tcpListener = null;
         }
 
-        private void ListenForConnections(CancellationToken cancelToken)
-        {
-            var observeTcpClient = Observable.While(
-                () => !cancelToken.IsCancellationRequested,
-                Observable.FromAsync(_tcpListener.AcceptTcpClientAsync)).SubscribeOn(Scheduler.Default);
-
-            observeTcpClient.Subscribe(
-                tcpClient =>
-                {
-                    var wrappedTcpClint = new TcpSocketClient(tcpClient, BufferSize);
-                    _tcpSocketSubject.OnNext(wrappedTcpClint);
-                },
-                ex =>
-                {
-                    throw (NativeSocketExceptions.Contains(ex.GetType()))
-                        ? new PclSocketException(ex)
-                        : ex;
-                }, cancelToken);
-        }
-
         public void Dispose()
         {
+            _tcpClientSubscribe.Dispose();
             _tcpListener.Stop();
             _listenCanceller.Cancel();
         }

@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Networking;

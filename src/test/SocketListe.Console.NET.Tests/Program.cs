@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,10 +21,10 @@ namespace SocketListe.Console.NET.Tests
 
             //var allComm = comm.GetAllInterfaces();
 
-            StartTcpClient();
+            //();
             StartTcpListener();
            
-            StartUdpMulticastClient();
+            //StartUdpMulticastClient();
 
             System.Console.ReadKey();
         }
@@ -76,6 +78,7 @@ namespace SocketListe.Console.NET.Tests
         private static async void StartTcpListener()
         {
             var tcpListener = new SocketLite.Services.TcpSocketListener();
+
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
 
             var tcpSubscriber = tcpListener.ObservableTcpSocket.Subscribe(
@@ -89,6 +92,8 @@ namespace SocketListe.Console.NET.Tests
                 {
                     // Exceptions received here;
                 });
+
+
             //tcpSubscriber.Dispose();
         }
 
