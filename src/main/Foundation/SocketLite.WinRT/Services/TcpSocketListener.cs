@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -17,14 +18,20 @@ namespace SocketLite.Services
         private StreamSocketListener _streamSocketListener;
 
         private IDisposable _connectionSubscriber;
+        //private readonly IObservable<ITcpSocketClient> _observableTcpSocket; //= new Subject<ITcpSocketClient>().AsObservable();
+
+        //public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(x =>
+        //{
+        //    return x;
+        //});
+
+        ////public IObservable<ITcpSocketClient> ObservableTcpSocket =>
+        ////    _connectableObservableTcpSocket.Select(
+        ////        socketClient => socketClient); 
+
+        //private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket => ObserveTcpSocketConnectionsFromEvents.Publish();
 
         public IObservable<ITcpSocketClient> ObservableTcpSocket =>
-            _connectableObservableTcpSocket.Select(
-                socketClient => socketClient); 
-
-        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket;
-
-        private IObservable<ITcpSocketClient> ObserveTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
                 TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>,
                 StreamSocketListenerConnectionReceivedEventArgs>(
@@ -36,10 +43,12 @@ namespace SocketLite.Services
 
         public TcpSocketListener() : base(bufferSize:0)
         {
+            
         }
 
         public TcpSocketListener(int bufferSize) :base(bufferSize)
         {
+            
         }
 
         public async Task StartListeningAsync(
@@ -52,7 +61,9 @@ namespace SocketLite.Services
 
             _streamSocketListener = new StreamSocketListener();
 
-            _connectableObservableTcpSocket = ObserveTcpSocketConnectionsFromEvents.Publish();
+            //await _connectableObservableTcpSocket.Publish();
+
+            //_connectableObservableTcpSocket = ObserveTcpSocketConnectionsFromEvents.Publish();
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
@@ -68,8 +79,19 @@ namespace SocketLite.Services
             {
                 await _streamSocketListener.BindServiceNameAsync(localServiceName);
             }
+            
 
-            _connectionSubscriber = _connectableObservableTcpSocket.Connect();
+            //_connectionSubscriber = _connectableObservableTcpSocket.Connect();
+
+            //var r = _observableTcpSocket;
+
+            //var t = await _observableTcpSocket.Merge(_connectableObservableTcpSocket).Select(x =>
+            //{
+            //    return x;
+            //}); ;
+
+
+
         }
 
         public void StopListening()

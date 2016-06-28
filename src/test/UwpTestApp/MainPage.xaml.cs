@@ -66,24 +66,27 @@ namespace UwpTestApp
                         Data.Text = System.Text.Encoding.UTF8.GetString(msg.ByteData);
                     });
 
+            //var tcpListenerSubscribe = StartTcpListener(tcpListener);
+
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
 
-            var tcpListenerSubscribe = StartTcpListener(tcpListener);
+            tcpListener.ObservableTcpSocket.Connect();
+            StartTcpListener(tcpListener);
 
 
             await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
 
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            //await Task.Delay(TimeSpan.FromSeconds(1));
 
-            // Testing that subscription can "survive" a disconnect and connect again.
-            tcpListener.StopListening();
-            tcpListenerSubscribe.Dispose();
-            udpMulticastListener.Disconnect();
+            //// Testing that subscription can "survive" a disconnect and connect again.
+            //tcpListener.StopListening();
+            //tcpListenerSubscribe.Dispose();
+            //udpMulticastListener.Disconnect();
 
-            await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
-            tcpListenerSubscribe = StartTcpListener(tcpListener);
+            //await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
+            //tcpListenerSubscribe = StartTcpListener(tcpListener);
 
-            await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
+            //await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
         }
 
         private IDisposable StartTcpListener(SocketLite.Services.TcpSocketListener tcpListener)
