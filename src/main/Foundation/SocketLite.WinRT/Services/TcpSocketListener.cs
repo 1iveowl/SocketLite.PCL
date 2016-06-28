@@ -15,8 +15,8 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        private StreamSocketListener _streamSocketListener;
-
+        private readonly StreamSocketListener _streamSocketListener;
+        
         private IDisposable _connectionSubscriber;
         //private readonly IObservable<ITcpSocketClient> _observableTcpSocket; //= new Subject<ITcpSocketClient>().AsObservable();
 
@@ -41,14 +41,11 @@ namespace SocketLite.Services
 
         public int LocalPort { get; internal set; }
 
-        public TcpSocketListener() : base(bufferSize:0)
+        public TcpSocketListener(int port,
+            ICommunicationInterface communicationEntity = null,
+            bool allowMultipleBindToSamePort = false) : base(bufferSize:0)
         {
-            
-        }
-
-        public TcpSocketListener(int bufferSize) :base(bufferSize)
-        {
-            
+            _streamSocketListener = new StreamSocketListener();
         }
 
         public async Task StartListeningAsync(
@@ -59,7 +56,7 @@ namespace SocketLite.Services
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);
 
-            _streamSocketListener = new StreamSocketListener();
+            
 
             //await _connectableObservableTcpSocket.Publish();
 
@@ -81,6 +78,7 @@ namespace SocketLite.Services
             }
             
 
+
             //_connectionSubscriber = _connectableObservableTcpSocket.Connect();
 
             //var r = _observableTcpSocket;
@@ -96,6 +94,7 @@ namespace SocketLite.Services
 
         public void StopListening()
         {
+            
             _connectionSubscriber.Dispose();
             _streamSocketListener.Dispose();
         }

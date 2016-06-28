@@ -75,16 +75,10 @@ namespace SocketLite.Services
             CancellationToken cancellationToken = default(CancellationToken),
             bool ignoreServerCertificateErrors = false)
         {
-
-
             if (ignoreServerCertificateErrors)
             {
                 ServicePointManager.ServerCertificateValidationCallback += CertificateErrorHandler;
-                //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertificateErrorHandler);
-
-
             }
-
             
 
             var connectTask = tcpClient.ConnectAsync(address, port).WrapNativeSocketExceptions();
@@ -108,8 +102,6 @@ namespace SocketLite.Services
 
                 }
                 return;
-                // notify that we did cancel
-                //cancellationToken.ThrowIfCancellationRequested();
             }
 
             canceller.Dispose();
@@ -121,9 +113,6 @@ namespace SocketLite.Services
                 secureStream.AuthenticateAsClient(address, null, System.Security.Authentication.SslProtocols.Tls12, false);
                 _secureStream = secureStream;
             }
-
-
-
         }
 
         public async Task ConnectAsync(

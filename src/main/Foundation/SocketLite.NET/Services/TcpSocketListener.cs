@@ -48,8 +48,16 @@ namespace SocketLite.Services
 
         public int LocalPort => ((IPEndPoint)_tcpListener.LocalEndpoint).Port;
 
-        public TcpSocketListener() : base(0)
+        public TcpSocketListener(int port,
+            ICommunicationInterface communicationEntity = null,
+            bool allowMultipleBindToSamePort = false) : base(0)
         {
+            var ipAddress = communicationEntity != null ? ((CommunicationInterface)communicationEntity).NativeIpAddress : IPAddress.Any;
+
+            _tcpListener = new TcpListener(ipAddress, port)
+            {
+                ExclusiveAddressUse = !allowMultipleBindToSamePort
+            };
         }
 
         private async Task<TcpClient> GetTcpClientAsync()
