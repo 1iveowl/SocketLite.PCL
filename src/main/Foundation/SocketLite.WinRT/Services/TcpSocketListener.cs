@@ -29,7 +29,7 @@ namespace SocketLite.Services
         ////    _connectableObservableTcpSocket.Select(
         ////        socketClient => socketClient); 
 
-        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket => ObserveTcpSocketConnectionsFromEvents;
+        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket => ObserveTcpSocketConnectionsFromEvents.Publish();
 
         private IConnectableObservable<ITcpSocketClient> ObserveTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
@@ -56,8 +56,8 @@ namespace SocketLite.Services
 
             _streamSocketListener = new StreamSocketListener();
 
-            
-            
+
+            ObserveTcpSocketConnectionsFromEvents.Connect();
 
             //_connectableObservableTcpSocket = ObserveTcpSocketConnectionsFromEvents.Publish();
 
@@ -84,9 +84,9 @@ namespace SocketLite.Services
             //    });
             //});
 
-            //ObserveTcpSocketConnectionsFromEvents.Connect();
+            
             //_connectableObservableTcpSocket.Publish();
-            //_connectableObservableTcpSocket.Connect();
+            _connectableObservableTcpSocket.Connect();
             
 
 
