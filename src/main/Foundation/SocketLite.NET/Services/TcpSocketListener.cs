@@ -11,20 +11,12 @@ using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
-
 namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
         private readonly ISubject<ITcpSocketClient> _subjectTcpSocket = new Subject<ITcpSocketClient>();
         public IObservable<ITcpSocketClient> ObservableTcpSocket => _subjectTcpSocket.AsObservable();
-
-        //public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(
-        //    x =>
-        //    {
-        //        System.Diagnostics.Debug.WriteLine($"Ip: {x.RemoteAddress}, Port:{x.RemotePort}");
-        //        return x;
-        //    });
 
         private IObservable<ITcpSocketClient> ObservableTcpSocketFromAsync => ObserveTcpClientFromAsync.Select(
             tcpClient =>
@@ -61,11 +53,6 @@ namespace SocketLite.Services
             }
             
             return tcpClient;
-        }
-
-        public TcpSocketListener(int bufferSize) : base(bufferSize)
-        {
-
         }
 
         public async Task StartListeningAsync(
