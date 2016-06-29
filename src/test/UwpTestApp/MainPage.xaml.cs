@@ -66,12 +66,12 @@ namespace UwpTestApp
                         Data.Text = System.Text.Encoding.UTF8.GetString(msg.ByteData);
                     });
 
-            
 
+            var tcpListenerSubscribe = StartTcpListener(tcpListener);
 
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
 
-            var tcpListenerSubscribe = StartTcpListener(tcpListener);
+            
 
 
 

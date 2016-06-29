@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Networking.Sockets;
-using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Model;
-using SocketLite.Services;
 using SocketLite.Services.Base;
 
 namespace SocketLite.Services
@@ -17,33 +14,23 @@ namespace SocketLite.Services
     {
         private StreamSocketListener _streamSocketListener;
         
-        private IDisposable _connectionSubscriber;
-        //private readonly IObservable<ITcpSocketClient> _observableTcpSocket; //= new Subject<ITcpSocketClient>().AsObservable();
+        private IDisposable _subscription;
 
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(x =>
-        {
-            return x;
-        });
+        private readonly ISubject<ITcpSocketClient> _subjectTcpSocket = new Subject<ITcpSocketClient>();
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => _subjectTcpSocket.AsObservable();
 
-        ////public IObservable<ITcpSocketClient> ObservableTcpSocket =>
-        ////    _connectableObservableTcpSocket.Select(
-        ////        socketClient => socketClient); 
-
-        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket => ObserveTcpSocketConnectionsFromEvents.Publish();
-
-        private IConnectableObservable<ITcpSocketClient> ObserveTcpSocketConnectionsFromEvents =>
+        private IObservable<ITcpSocketClient> ObservableTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
                 TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>,
                 StreamSocketListenerConnectionReceivedEventArgs>(
                     ev => _streamSocketListener.ConnectionReceived += ev,
                     ev => _streamSocketListener.ConnectionReceived -= ev)
-                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize)).Publish();
+                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize)).Publish().RefCount();
 
         public int LocalPort { get; internal set; }
 
         public TcpSocketListener() : base(bufferSize:0)
         {
-            
         }
 
         public async Task StartListeningAsync(
@@ -55,11 +42,6 @@ namespace SocketLite.Services
             CheckCommunicationInterface(communicationInterface);
 
             _streamSocketListener = new StreamSocketListener();
-
-
-            ObserveTcpSocketConnectionsFromEvents.Connect();
-
-            //_connectableObservableTcpSocket = ObserveTcpSocketConnectionsFromEvents.Publish();
 
             var localServiceName = port == 0 ? "" : port.ToString();
 
@@ -76,40 +58,20 @@ namespace SocketLite.Services
                 await _streamSocketListener.BindServiceNameAsync(localServiceName);
             }
 
-            //Task.Run(async () =>
-            //{
-            //    await ObserveTcpSocketConnectionsFromEvents.Select(x =>
-            //    {
-            //        return x;
-            //    });
-            //});
-
-            
-            //_connectableObservableTcpSocket.Publish();
-            _connectableObservableTcpSocket.Connect();
-            
-
-
-            //ObservableTcpSocket2.
-
-
-            //_connectionSubscriber = _connectableObservableTcpSocket.Connect();
-
-            //var r = _observableTcpSocket;
-
-            //var t = await _observableTcpSocket.Merge(_connectableObservableTcpSocket).Select(x =>
-            //{
-            //    return x;
-            //}); ;
-
-
-
+            _subscription = ObservableTcpSocketConnectionsFromEvents.Subscribe(
+                client =>
+                {
+                    _subjectTcpSocket.OnNext(client);
+                },
+                ex =>
+                {
+                    _subjectTcpSocket.OnError(ex);
+                });
         }
 
         public void StopListening()
         {
-            
-            _connectionSubscriber.Dispose();
+           _subscription.Dispose();
             _streamSocketListener.Dispose();
         }
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
@@ -18,19 +16,17 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
+        private readonly ISubject<ITcpSocketClient> _subjectTcpSocket = new Subject<ITcpSocketClient>();
+        public IObservable<ITcpSocketClient> ObservableTcpSocket => _subjectTcpSocket.AsObservable();
 
-        public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(
-            x =>
-            {
-                System.Diagnostics.Debug.WriteLine($"Ip: {x.RemoteAddress}, Port:{x.RemotePort}");
-                return x;
-            });
+        //public IObservable<ITcpSocketClient> ObservableTcpSocket => _connectableObservableTcpSocket.Select(
+        //    x =>
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"Ip: {x.RemoteAddress}, Port:{x.RemotePort}");
+        //        return x;
+        //    });
 
-
-        private IConnectableObservable<ITcpSocketClient> _connectableObservableTcpSocket;
-
-
-        private IObservable<ITcpSocketClient> _observableTcpSocket => ObserveTcpClientFromAsync.Select(
+        private IObservable<ITcpSocketClient> ObservableTcpSocketFromAsync => ObserveTcpClientFromAsync.Select(
             tcpClient =>
             {
                 var client = new TcpSocketClient(tcpClient, BufferSize);
@@ -61,7 +57,7 @@ namespace SocketLite.Services
             }
             catch (Exception ex)
             {
-                //throw;
+                throw ex;
             }
             
             return tcpClient;
@@ -86,8 +82,6 @@ namespace SocketLite.Services
                 ExclusiveAddressUse = !allowMultipleBindToSamePort
             };
 
-            _connectableObservableTcpSocket = _observableTcpSocket.Publish();
-
             try
             {
                 _tcpListener.Start();
@@ -97,7 +91,15 @@ namespace SocketLite.Services
                 throw new PclSocketException(ex);
             }
 
-            _tcpClientSubscribe = _connectableObservableTcpSocket.Connect();
+            _tcpClientSubscribe = ObservableTcpSocketFromAsync.Subscribe(
+                client =>
+                {
+                    _subjectTcpSocket.OnNext(client);
+                },
+                ex =>
+                {
+                    _subjectTcpSocket.OnError(ex);
+                });
         }
 
         public void StopListening()
