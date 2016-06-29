@@ -123,9 +123,11 @@ namespace SocketLite.Services
             bool ignoreServerCertificateErrors = false)
         {
             var port = ServiceNames.PortForTcpServiceName(service);
+
             await ConnectAsync(
                 address, 
-                port, secure, 
+                port, 
+                secure, 
                 cancellationToken, 
                 ignoreServerCertificateErrors).ConfigureAwait(false);
         }

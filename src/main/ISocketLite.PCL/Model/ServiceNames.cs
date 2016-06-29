@@ -11,15 +11,21 @@ namespace ISocketLite.PCL.Model
         public static ushort PortForTcpServiceName(string sn)
         {
             ushort port = 0;
-            if (!TcpServiceNames.TryGetValue(sn, out port))
+
+            if (ushort.TryParse(sn, out port))
             {
-                if (!ushort.TryParse(sn, out port))
-                {
-                    throw new ArgumentException("Invalid service name or port number");
-                }
+                return port;
             }
 
-            return port;
+            if (!TcpServiceNames.TryGetValue(sn, out port))
+            {
+                return port;
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid service name or port number: {sn}");
+            }
+            
         }
 
         private static readonly Dictionary<string, ushort> TcpServiceNames = new Dictionary<string, ushort>
