@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -67,15 +67,15 @@
       <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.pdb"
         target="lib\uap10.0\ISocketLite.PCL.pdb" />
         
-<!--Windows Desktop-->
-      <!--<file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
+<!--.NET -->
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
           target="lib\net45\SocketLite.dll" />
       <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.pdb"
         target="lib\net45\SocketLite.pdb" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.dll"
         target="lib\net45\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\net45\ISocketLite.PCL.pdb" />-->
+        target="lib\net45\ISocketLite.PCL.pdb" />
         
 <!--Windows 8.x & Windows Phone 81
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
