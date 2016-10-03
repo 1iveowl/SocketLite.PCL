@@ -27,15 +27,15 @@
     </dependencies>
   </metadata>
   <files>
-  <!--.NET Standard 1.4 - Ref (Bait) -->
+  <!--Core-->
       <file src="bin\Release\SocketLite.dll"
-          target="ref\netstandard1.4\SocketLite.dll" />
+          target="lib\portable-net45+netcore45\SocketLite.dll" />
       <file src="bin\Release\SocketLite.pdb"
-        target="ref\netstandard1.4\SocketLite.pdb" />
+        target="lib\portable-net45+netcore45\SocketLite.pdb" />
       <file src="bin\Release\ISocketLite.PCL.dll"
-        target="ref\netstandard1.4\ISocketLite.PCL.dll" />
+        target="lib\portable-net45+netcore45\ISocketLite.PCL.dll" />
       <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="ref\netstandard1.4\ISocketLite.PCL.pdb" />
+        target="lib\portable-net45+netcore45\ISocketLite.PCL.pdb" />
 
   <!--Xamarin.Android-->
       <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
@@ -68,16 +68,16 @@
         target="lib\uap10.0\ISocketLite.PCL.pdb" />
         
 <!--Windows Desktop-->
-      <!--<file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
+      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
           target="lib\net45\SocketLite.dll" />
       <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.pdb"
         target="lib\net45\SocketLite.pdb" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.dll"
         target="lib\net45\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\net45\ISocketLite.PCL.pdb" />-->
+        target="lib\net45\ISocketLite.PCL.pdb" />
         
-<!--Windows 8.x & Windows Phone 81
+<!--Windows 8.x & Windows Phone 81-->
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
           target="lib\win8+wpa81+wp8\SocketLite.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.pdb"
@@ -85,7 +85,7 @@
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
         target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       -->
+        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       
              
   </files>
 </package>
