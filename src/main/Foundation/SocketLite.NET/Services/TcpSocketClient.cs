@@ -137,6 +137,7 @@ namespace SocketLite.Services
 
                 try
                 {
+
                     //There is a bug here in Mono. Bay be related to this :https://bugzilla.xamarin.com/show_bug.cgi?id=19141 
                     // and similar to this: https://forums.xamarin.com/discussion/51622/sslstream-authenticateasclient-hangs? 
                     //Environment.SetEnvironmentVariable("MONO_TLS_SESSION_CACHE_TIMEOUT", "0");
