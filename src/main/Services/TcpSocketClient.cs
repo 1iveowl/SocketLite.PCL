@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
+using ISocketLite.PCL.Model;
 using SocketLite.Services.Base;
 using static SocketLite.Helper.Helper;
 
@@ -28,7 +29,8 @@ namespace SocketLite.Services
             string service, 
             bool secure = false,
             CancellationToken cancellationToken = new CancellationToken(), 
-            bool ignoreServerCertificateErrors = false)
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using ISocketLite.PCL.Interface;
+using ISocketLite.PCL.Model;
 using SocketLite.Services.Base;
 
 namespace SocketLite.Services
@@ -43,11 +44,36 @@ namespace SocketLite.Services
             string service, 
             bool secure = false, 
             CancellationToken cancellationToken = default(CancellationToken), 
-            bool ignoreServerCertificateErrors = false)
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
         {
             var hostName = new HostName(address);
             var remoteServiceName = service;
-            var socketProtectionLevel = secure ? SocketProtectionLevel.Tls10 : SocketProtectionLevel.PlainSocket;
+
+            var tlsProtocol = SocketProtectionLevel.PlainSocket;
+
+            if (secure)
+            {
+                switch (tlsProtocolType)
+                {
+                    case TlsProtocolType.Tls10:
+                        tlsProtocol = SocketProtectionLevel.Tls10;
+                        break;
+                    case TlsProtocolType.Tls11:
+                        tlsProtocol = SocketProtectionLevel.Tls11;
+                        break;
+                    case TlsProtocolType.Tls12:
+                        tlsProtocol = SocketProtectionLevel.Tls12;
+                        break;
+                    case TlsProtocolType.None:
+                        tlsProtocol = SocketProtectionLevel.PlainSocket;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolType), tlsProtocolType, null);
+                }
+            }
+
+            var socketProtectionLevel = tlsProtocol;
 
             try
             {

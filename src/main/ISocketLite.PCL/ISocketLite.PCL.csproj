@@ -51,6 +51,7 @@
     <Compile Include="Interface\IUdpSocketReceiver.cs" />
     <Compile Include="Interface\IUdSocketMulticastClient.cs" />
     <Compile Include="Model\CommunicationConnectionStatus.cs" />
+    <Compile Include="Model\TlsProtocolType.cs" />
     <Compile Include="Model\ServiceNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

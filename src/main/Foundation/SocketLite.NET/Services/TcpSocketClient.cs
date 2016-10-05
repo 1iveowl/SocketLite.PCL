@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,18 +63,15 @@ namespace SocketLite.Services
             InitializeWriteStream();
         }
 
-        private bool CertificateErrorHandler(object sender, X509Certificate cert, X509Chain chain,
-            SslPolicyErrors sslError)
-        {
-            return true;
-        }
+        
 
         private async Task ConnectAsync(
             string address,
             int port,
             bool secure = false,
             CancellationToken cancellationToken = default(CancellationToken),
-            bool ignoreServerCertificateErrors = false)
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
         {
             if (ignoreServerCertificateErrors)
             {
@@ -109,8 +107,27 @@ namespace SocketLite.Services
 
             if (secure)
             {
+                SslProtocols tlsProtocol;
+
+                switch (tlsProtocolType)
+                {
+                    case TlsProtocolType.Tls10:
+                        tlsProtocol = SslProtocols.Tls;
+                        break;
+                    case TlsProtocolType.Tls11:
+                        tlsProtocol = SslProtocols.Tls11;
+                        break;
+                    case TlsProtocolType.Tls12:
+                        tlsProtocol = SslProtocols.Tls12;
+                        break;
+                    case TlsProtocolType.None:
+                        tlsProtocol = SslProtocols.None;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolType), tlsProtocolType, null);
+                }
                 var secureStream = new SslStream(_writeStream, true, CertificateErrorHandler);
-                secureStream.AuthenticateAsClient(address, null, System.Security.Authentication.SslProtocols.Tls12, false);
+                secureStream.AuthenticateAsClient(address, null, tlsProtocol, false);
                 _secureStream = secureStream;
             }
         }
@@ -120,7 +137,8 @@ namespace SocketLite.Services
             string service,
             bool secure = false,
             CancellationToken cancellationToken = default(CancellationToken),
-            bool ignoreServerCertificateErrors = false)
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
         {
             var port = ServiceNames.PortForTcpServiceName(service);
 
@@ -139,27 +157,31 @@ namespace SocketLite.Services
             tcpClient = new TcpClient();
         }
 
+        private bool CertificateErrorHandler(
+            object sender,
+            X509Certificate cert,
+            X509Chain chain,
+            SslPolicyErrors sslError)
+        {
+            switch (sslError)
+            {
+                case SslPolicyErrors.RemoteCertificateNameMismatch:
+                    throw new Exception($"SSL/TLS error: {SslPolicyErrors.RemoteCertificateChainErrors.ToString()}");
+                case SslPolicyErrors.RemoteCertificateNotAvailable:
+                    throw new Exception($"SSL/TLS error: {SslPolicyErrors.RemoteCertificateNotAvailable.ToString()}");
+                case SslPolicyErrors.RemoteCertificateChainErrors:
+                    throw new Exception($"SSL/TLS error: {SslPolicyErrors.RemoteCertificateChainErrors.ToString()}");
+                case SslPolicyErrors.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sslError), sslError, null);
+            }
+            return true;
+        }
+
         private void InitializeWriteStream()
         {
             _writeStream = BufferSize != 0 ? (Stream)new BufferedStream(tcpClient.GetStream(), BufferSize) : tcpClient.GetStream();
-        }
-
-        private bool ServerValidationCallback(
-            object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors)
-        {
-            switch (sslPolicyErrors)
-            {
-                case SslPolicyErrors.RemoteCertificateNameMismatch:
-                    return false;
-                case SslPolicyErrors.RemoteCertificateNotAvailable:
-                    return false;
-                case SslPolicyErrors.RemoteCertificateChainErrors:
-                    return false;
-            }
-            return true;
         }
 
         public void Dispose()
