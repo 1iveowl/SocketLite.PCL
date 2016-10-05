@@ -15,7 +15,7 @@ namespace ISocketLite.PCL.Interface
             bool secure = false, 
             CancellationToken cancellationToken = default(CancellationToken), 
             bool ignoreServerCertificateErrors = false, 
-            TlsProtocolType tlsProtocolType = TlsProtocolType.None);
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12);
 
         void Disconnect();
 

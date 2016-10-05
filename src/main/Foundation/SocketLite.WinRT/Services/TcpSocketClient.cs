@@ -45,7 +45,7 @@ namespace SocketLite.Services
             bool secure = false, 
             CancellationToken cancellationToken = default(CancellationToken), 
             bool ignoreServerCertificateErrors = false,
-            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
             var hostName = new HostName(address);
             var remoteServiceName = service;
@@ -54,22 +54,22 @@ namespace SocketLite.Services
 
             if (secure)
             {
-                switch (tlsProtocolType)
+                switch (tlsProtocolVersion)
                 {
-                    case TlsProtocolType.Tls10:
+                    case TlsProtocolVersion.Tls10:
                         tlsProtocol = SocketProtectionLevel.Tls10;
                         break;
-                    case TlsProtocolType.Tls11:
+                    case TlsProtocolVersion.Tls11:
                         tlsProtocol = SocketProtectionLevel.Tls11;
                         break;
-                    case TlsProtocolType.Tls12:
+                    case TlsProtocolVersion.Tls12:
                         tlsProtocol = SocketProtectionLevel.Tls12;
                         break;
-                    case TlsProtocolType.None:
+                    case TlsProtocolVersion.None:
                         tlsProtocol = SocketProtectionLevel.PlainSocket;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolType), tlsProtocolType, null);
+                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolVersion), tlsProtocolVersion, null);
                 }
             }
 

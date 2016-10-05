@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISocketLite.PCL.Model
 {
-    public enum TlsProtocolType
+    public enum TlsProtocolVersion
     {
         None,
         Tls10,

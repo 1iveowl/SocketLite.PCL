@@ -63,7 +63,7 @@ namespace SocketLite.Services
             InitializeWriteStream();
         }
 
-        
+
 
         private async Task ConnectAsync(
             string address,
@@ -71,13 +71,13 @@ namespace SocketLite.Services
             bool secure = false,
             CancellationToken cancellationToken = default(CancellationToken),
             bool ignoreServerCertificateErrors = false,
-            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
             if (ignoreServerCertificateErrors)
             {
                 ServicePointManager.ServerCertificateValidationCallback += CertificateErrorHandler;
             }
-            
+
 
             var connectTask = tcpClient.ConnectAsync(address, port).WrapNativeSocketExceptions();
 
@@ -89,6 +89,12 @@ namespace SocketLite.Services
 
             if (okOrCancelled == ret.Task)
             {
+
+#pragma warning disable CS4014
+                // ensure we observe the connectTask's exception in case downstream consumers throw on unobserved tasks
+                connectTask.ContinueWith(t => $"{t.Exception}", TaskContinuationOptions.OnlyOnFaulted);
+#pragma warning restore CS4014 
+
                 // reset the backing field.
                 // depending on the state of the socket this may throw ODE which it is appropriate to ignore
                 try
@@ -109,26 +115,41 @@ namespace SocketLite.Services
             {
                 SslProtocols tlsProtocol;
 
-                switch (tlsProtocolType)
+                switch (tlsProtocolVersion)
                 {
-                    case TlsProtocolType.Tls10:
+                    case TlsProtocolVersion.Tls10:
                         tlsProtocol = SslProtocols.Tls;
                         break;
-                    case TlsProtocolType.Tls11:
+                    case TlsProtocolVersion.Tls11:
                         tlsProtocol = SslProtocols.Tls11;
                         break;
-                    case TlsProtocolType.Tls12:
+                    case TlsProtocolVersion.Tls12:
                         tlsProtocol = SslProtocols.Tls12;
                         break;
-                    case TlsProtocolType.None:
+                    case TlsProtocolVersion.None:
                         tlsProtocol = SslProtocols.None;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolType), tlsProtocolType, null);
+                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolVersion), tlsProtocolVersion, null);
                 }
+
                 var secureStream = new SslStream(_writeStream, true, CertificateErrorHandler);
-                secureStream.AuthenticateAsClient(address, null, tlsProtocol, false);
-                _secureStream = secureStream;
+
+                try
+                {
+                    //There is a bug here in Mono. Bay be related to this :https://bugzilla.xamarin.com/show_bug.cgi?id=19141 
+                    // and similar to this: https://forums.xamarin.com/discussion/51622/sslstream-authenticateasclient-hangs? 
+                    //Environment.SetEnvironmentVariable("MONO_TLS_SESSION_CACHE_TIMEOUT", "0");
+                    secureStream.AuthenticateAsClient(address, null, tlsProtocol, false);
+
+                    _secureStream = secureStream;
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+                
             }
         }
 
@@ -138,7 +159,7 @@ namespace SocketLite.Services
             bool secure = false,
             CancellationToken cancellationToken = default(CancellationToken),
             bool ignoreServerCertificateErrors = false,
-            TlsProtocolType tlsProtocolType = TlsProtocolType.None)
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
             var port = ServiceNames.PortForTcpServiceName(service);
 
