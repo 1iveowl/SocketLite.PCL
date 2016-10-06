@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -22,7 +22,7 @@
 
         <group targetFramework="uap10.0">
           <dependency id="System.Reactive" version="3.0.0" />
-          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2" />
+          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
       </group>
     </dependencies>
   </metadata>
