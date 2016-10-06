@@ -15,7 +15,7 @@ using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
 namespace SocketLite.Services
 {
-    public class TcpSocketClient : TcpSocketBase, ITcpSocketClient
+    public class TcpSocketClient : TcpSocketBase, ITcpSocketClient 
     {
         //private readonly int _bufferSize;
         private SslStream _secureStream;
