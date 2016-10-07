@@ -32,6 +32,8 @@ namespace SocketLite.Services
 
         public Stream WriteStream => _secureStream != null ? _secureStream as Stream : _writeStream;
 
+        private bool _ignoreCertificateErrors;
+
         private IPEndPoint RemoteEndpoint
         {
             get
@@ -73,6 +75,8 @@ namespace SocketLite.Services
             bool ignoreServerCertificateErrors = false,
             TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
+            _ignoreCertificateErrors = ignoreServerCertificateErrors;
+
             if (ignoreServerCertificateErrors)
             {
                 ServicePointManager.ServerCertificateValidationCallback += CertificateErrorHandler;
@@ -137,10 +141,9 @@ namespace SocketLite.Services
 
                 try
                 {
-
                     //There is a bug here in Mono. Bay be related to this :https://bugzilla.xamarin.com/show_bug.cgi?id=19141 
                     // and similar to this: https://forums.xamarin.com/discussion/51622/sslstream-authenticateasclient-hangs? 
-                    //Environment.SetEnvironmentVariable("MONO_TLS_SESSION_CACHE_TIMEOUT", "0");
+                    //var tlsSTate = Environment.GetEnvironmentVariable("MONO_TLS_PROVIDER");
                     secureStream.AuthenticateAsClient(address, null, tlsProtocol, false);
 
                     _secureStream = secureStream;
@@ -185,6 +188,8 @@ namespace SocketLite.Services
             X509Chain chain,
             SslPolicyErrors sslError)
         {
+            if (_ignoreCertificateErrors) return true;
+
             switch (sslError)
             {
                 case SslPolicyErrors.RemoteCertificateNameMismatch:
@@ -208,8 +213,8 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _secureStream.Dispose();
-            _writeStream.Dispose();
+            _secureStream?.Dispose();
+            _writeStream?.Dispose();
         }
     }
 }

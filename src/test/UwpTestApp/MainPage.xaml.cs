@@ -29,8 +29,8 @@ namespace UwpTestApp
         public MainPage()
         {
             this.InitializeComponent();
-            StartTest();
-            //StartTlsClient();
+            //StartTest();
+            StartTlsClient();
         }
 
         private async void StartTlsClient()
@@ -39,11 +39,11 @@ namespace UwpTestApp
             var tcpClient = new SocketLite.Services.TcpSocketClient();
             try
             {
-                await tcpClient.ConnectAsync("abc.123.test", "8088", secure: true, ignoreServerCertificateErrors:true);
+                await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", secure: true, ignoreServerCertificateErrors:true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

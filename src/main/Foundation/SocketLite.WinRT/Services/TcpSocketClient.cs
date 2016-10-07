@@ -73,11 +73,9 @@ namespace SocketLite.Services
                 }
             }
 
-            var socketProtectionLevel = tlsProtocol;
-
             try
             {
-                await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+                await Socket.ConnectAsync(hostName, remoteServiceName, tlsProtocol);
             }
             catch (Exception ex)
             {
@@ -93,7 +91,7 @@ namespace SocketLite.Services
                     //Try again
                     try
                     {
-                        await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+                        await Socket.ConnectAsync(hostName, remoteServiceName, tlsProtocol);
                     }
                     catch (Exception retryEx)
                     {
@@ -105,7 +103,6 @@ namespace SocketLite.Services
                 {
                     throw ex;
                 }
-                
             }
         }
 
