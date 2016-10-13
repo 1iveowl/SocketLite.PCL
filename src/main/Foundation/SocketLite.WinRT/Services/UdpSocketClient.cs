@@ -23,12 +23,12 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            DatagramSocket.Dispose();
+            DatagramSocket?.Dispose();
         }
 
         public void Dispose()
         {
-            DatagramSocket.Dispose();
+            DatagramSocket?.Dispose();
         }
     }
 }

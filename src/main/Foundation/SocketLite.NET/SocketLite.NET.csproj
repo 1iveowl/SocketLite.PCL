@@ -80,17 +80,13 @@
     <Compile Include="Services\UdpSocketReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\ISocketLite.PCL\ISocketLite.PCL.csproj">
       <Project>{1752265e-ffab-4a20-b3f7-83789cb8b125}</Project>
       <Name>ISocketLite.PCL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SocketLite.PCL.csproj">
-      <Project>{eee36e05-dcbc-4b35-b47b-94d0e9e9fa0f}</Project>
-      <Name>SocketLite.PCL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
