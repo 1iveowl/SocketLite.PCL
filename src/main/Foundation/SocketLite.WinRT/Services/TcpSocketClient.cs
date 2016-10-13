@@ -108,7 +108,7 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            Socket.Dispose();
+            Socket?.Dispose();
             Socket = new StreamSocket();
         }
 

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>3.0.5</version>
+    <version>3.0.6</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -80,7 +80,7 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
         target="lib\net45\ISocketLite.PCL.pdb" />
         
-<!--Windows 8.x & Windows Phone 81
+<!--Windows 8.x & Windows Phone 81-->
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
           target="lib\win8+wpa81+wp8\SocketLite.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.pdb"
@@ -88,7 +88,7 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
         target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       -->
+        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       
              
   </files>
 </package>

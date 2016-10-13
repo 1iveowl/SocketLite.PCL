@@ -106,9 +106,9 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _tcpClientSubscribe.Dispose();
-            _tcpListener.Stop();
-            _listenCanceller.Cancel();
+            _tcpClientSubscribe?.Dispose();
+            _tcpListener?.Stop();
+            _listenCanceller?.Cancel();
         }
     }
 }

@@ -53,13 +53,13 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            MessageConcellationTokenSource.Cancel();
-            BackingUdpClient.Close();
+            MessageConcellationTokenSource?.Cancel();
+            BackingUdpClient?.Close();
         }
 
         public void Dispose()
         {
-            BackingUdpClient.Close();
+            BackingUdpClient?.Close();
         }
     }
 }
