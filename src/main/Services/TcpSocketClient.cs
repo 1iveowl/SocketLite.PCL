@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
+using ISocketLite.PCL.Model;
 using SocketLite.Services.Base;
 using static SocketLite.Helper.Helper;
 
@@ -24,11 +22,12 @@ namespace SocketLite.Services
         }
 
         public Task ConnectAsync(
-            string address, 
-            string service, 
+            string address,
+            string service,
             bool secure = false,
-            CancellationToken cancellationToken = new CancellationToken(), 
-            bool ignoreServerCertificateErrors = false)
+            CancellationToken cancellationToken = new CancellationToken(),
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
