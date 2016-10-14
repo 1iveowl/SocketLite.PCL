@@ -11,7 +11,7 @@
     <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for .NET, iOS, Windows (Phone) 8.x/10 (UWP) and Android </description>
-    <releaseNotes>Moved to PCL Profile 111 (code/functionality is identical to Nuget 3.0.6 </releaseNotes>
+    <releaseNotes>Moved to PCL Profile 111 (code/functionality is identical to Nuget 3.0.7</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Socket, Tcp, Udp, Xamarin, PCL, ios, android, uwp, windows 10</tags>
     <dependencies>
