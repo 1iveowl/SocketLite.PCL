@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>3.0.6</version>
+    <version>3.0.9</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
     <releaseNotes>
-Moved from to .NET Standard 1.4 to format 1.2 for better compatibility. 
+Moved from to .NET Standard 1.2 for better compatibility. 
 Changed Android Target Framework from 7.0 (Nougat) to 6.0 (Marshmallow) for better compatibility. 
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
@@ -32,13 +32,13 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
   <files>
   <!--.NET Standard 1.4 - Ref (Bait) -->
       <file src="bin\Release\SocketLite.dll"
-          target="ref\netstandard1.4\SocketLite.dll" />
+          target="ref\netstandard1.2\SocketLite.dll" />
       <file src="bin\Release\SocketLite.pdb"
-        target="ref\netstandard1.4\SocketLite.pdb" />
+        target="ref\netstandard1.2\SocketLite.pdb" />
       <file src="bin\Release\ISocketLite.PCL.dll"
-        target="ref\netstandard1.4\ISocketLite.PCL.dll" />
+        target="ref\netstandard1.2\ISocketLite.PCL.dll" />
       <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="ref\netstandard1.4\ISocketLite.PCL.pdb" />
+        target="ref\netstandard1.2\ISocketLite.PCL.pdb" />
 
   <!--Xamarin.Android-->
       <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
