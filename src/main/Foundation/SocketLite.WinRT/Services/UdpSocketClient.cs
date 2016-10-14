@@ -28,7 +28,7 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            DatagramSocket.Dispose();
+            DatagramSocket?.Dispose();
         }
     }
 }

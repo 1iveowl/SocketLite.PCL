@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>3.0.1</version>
+    <version>2.0.8</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -10,13 +10,13 @@
     <projectUrl>https://github.com/1iveowl/SocketLite.PCL</projectUrl>
     <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
-    <releaseNotes>Moved to .NET Standard 1.4 format</releaseNotes>
+    <description>Socket PCL Xamarin Cross platform for .NET, iOS, Windows (Phone) 8.x/10 (UWP) and Android </description>
+    <releaseNotes>Moved to PCL Profile 111 (code/functionality is identical to Nuget 3.0.6 </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Socket, Tcp, Udp, Xamarin, PCL, ios, android, uwp, windows 10</tags>
     <dependencies>
 
-        <group targetFramework="portable-net45+netcore45">
+        <group targetFramework="portable-net45+win8+wpa81">
           <dependency id="System.Reactive" version="3.0.0" />
         </group>
 
@@ -28,14 +28,14 @@
   </metadata>
   <files>
   <!--.NET Standard 1.4 - Ref (Bait) -->
-      <file src="bin\Release\SocketLite.dll"
+      <!--<file src="bin\Release\SocketLite.dll"
           target="ref\netstandard1.4\SocketLite.dll" />
       <file src="bin\Release\SocketLite.pdb"
         target="ref\netstandard1.4\SocketLite.pdb" />
       <file src="bin\Release\ISocketLite.PCL.dll"
         target="ref\netstandard1.4\ISocketLite.PCL.dll" />
       <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="ref\netstandard1.4\ISocketLite.PCL.pdb" />
+        target="ref\netstandard1.4\ISocketLite.PCL.pdb" />-->
 
   <!--Xamarin.Android-->
       <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
@@ -77,15 +77,15 @@
       <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
         target="lib\net45\ISocketLite.PCL.pdb" />
         
-<!--Windows 8.x & Windows Phone 81
+<!--Windows 8.x & Windows Phone 81-->
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
-          target="lib\win8+wpa81+wp8\SocketLite.dll" />
+          target="lib\portable-net45+win8+wpa81\SocketLite.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.pdb" />
+        target="lib\portable-net45+win8+wpa81\SocketLite.pdb" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
+        target="lib\portable-net45+win8+wpa81\ISocketLite.PCL.dll" />
       <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       -->
+        target="lib\portable-net45+win8+wpa81\ISocketLite.PCL.pdb" />                       
              
   </files>
 </package>

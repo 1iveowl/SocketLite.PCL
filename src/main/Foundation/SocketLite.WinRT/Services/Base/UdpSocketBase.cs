@@ -110,8 +110,8 @@ namespace SocketLite.Services.Base
 
         public void Dispose()
         {
-            _messageSubscribe.Dispose();
-            DatagramSocket.Dispose();
+            _messageSubscribe?.Dispose();
+            DatagramSocket?.Dispose();
         }
     }
 }

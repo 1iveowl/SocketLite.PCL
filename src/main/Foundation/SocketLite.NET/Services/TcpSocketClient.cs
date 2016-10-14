@@ -164,8 +164,8 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _secureStream.Dispose();
-            _writeStream.Dispose();
+            _secureStream?.Dispose();
+            _writeStream?.Dispose();
         }
     }
 }

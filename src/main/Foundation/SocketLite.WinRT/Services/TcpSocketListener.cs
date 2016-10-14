@@ -71,8 +71,8 @@ namespace SocketLite.Services
 
         public void StopListening()
         {
-           _subscription.Dispose();
-            _streamSocketListener.Dispose();
+           _subscription?.Dispose();
+            _streamSocketListener?.Dispose();
         }
 
         public void Dispose()
