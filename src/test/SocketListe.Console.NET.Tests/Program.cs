@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SocketLite.Model;
 using SocketLite.Services;
 
 namespace SocketListe.Console.NET.Tests

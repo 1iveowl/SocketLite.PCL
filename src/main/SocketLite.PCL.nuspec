@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SocketLite.PCL</id>
-    <version>3.0.9</version>
+    <version>0</version>
     <title>Socket Lite - Xamarin PCL</title>
     <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
@@ -30,65 +30,39 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     </dependencies>
   </metadata>
   <files>
-  <!--.NET Standard 1.4 - Ref (Bait) -->
-      <file src="bin\Release\SocketLite.dll"
-          target="ref\netstandard1.2\SocketLite.dll" />
-      <file src="bin\Release\SocketLite.pdb"
-        target="ref\netstandard1.2\SocketLite.pdb" />
-      <file src="bin\Release\ISocketLite.PCL.dll"
-        target="ref\netstandard1.2\ISocketLite.PCL.dll" />
-      <file src="bin\Release\ISocketLite.PCL.pdb"
-        target="ref\netstandard1.2\ISocketLite.PCL.pdb" />
+  <!--.NET Standard 1.2 - Ref (Bait) -->
+      <file src="SocketLite.PCL\bin\Release\*.dll" target="ref\netstandard1.2" exclude="**\System.Reactive"/>
+      <file src="SocketLite.PCL\bin\Release\*.pdb" target="ref\netstandard1.2" exclude="**\System.Reactive"/>
+      <file src="SocketLite.PCL\bin\Release\*.xml" target="ref\netstandard1.2" exclude="**\System.Reactive"/>
+          
+<!--Xamarin.Android-->
+		<file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\*.dll" target="lib\MonoAndroid10" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\*.pdb" target="lib\MonoAndroid10" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\*.xml" target="lib\MonoAndroid10" exclude="**\System.Reactive.*" />
 
-  <!--Xamarin.Android-->
-      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.dll"
-          target="lib\MonoAndroid10\SocketLite.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\SocketLite.pdb"
-        target="lib\MonoAndroid10\SocketLite.pdb" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\ISocketLite.PCL.dll"
-        target="lib\MonoAndroid10\ISocketLite.PCL.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.Android\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\MonoAndroid10\ISocketLite.PCL.pdb" />         
-  
-  <!--Xamarin.iOS Unified-->
-      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\SocketLite.dll"
-          target="lib\Xamarin.iOS10\SocketLite.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\SocketLite.pdb"
-        target="lib\Xamarin.iOS10\SocketLite.pdb" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\ISocketLite.PCL.dll"
-        target="lib\Xamarin.iOS10\ISocketLite.PCL.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\Xamarin.iOS10\ISocketLite.PCL.pdb" />
-        
-<!--UWP-->
-      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\SocketLite.dll"
-          target="lib\uap10.0\SocketLite.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\SocketLite.pdb"
-        target="lib\uap10.0\SocketLite.pdb" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.dll"
-        target="lib\uap10.0\ISocketLite.PCL.dll" />
-      <file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\uap10.0\ISocketLite.PCL.pdb" />
-        
-<!--.NET -->
-      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.dll"
-          target="lib\net45\SocketLite.dll" />
-      <file src="Foundation\SocketLite.NET\bin\Release\SocketLite.pdb"
-        target="lib\net45\SocketLite.pdb" />
-      <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.dll"
-        target="lib\net45\ISocketLite.PCL.dll" />
-      <file src="Foundation\SocketLite.NET\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\net45\ISocketLite.PCL.pdb" />
-        
-<!--Windows 8.x & Windows Phone 81-->
-      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.dll"
-          target="lib\win8+wpa81+wp8\SocketLite.dll" />
-      <file src="Foundation\SocketLite.WinRT\bin\Release\SocketLite.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\SocketLite.pdb" />
-      <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.dll"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.dll" />
-      <file src="Foundation\SocketLite.WinRT\bin\Release\ISocketLite.PCL.pdb"
-        target="lib\portable-net45+win8+wpa81+wp8\ISocketLite.PCL.pdb" />                       
-             
+		<!--Xamarin.iOS Unified-->
+		<file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\*.dll" target="lib\Xamarin.iOS10" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\*.pdb" target="lib\Xamarin.iOS10" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.iOS\bin\Release\*.xml" target="lib\Xamarin.iOS10" exclude="**\System.Reactive.*" />
+
+		<!--UWP-->
+		<file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\*.dll" target="lib\uap10.0" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\*.pdb" target="lib\uap10.0" exclude="**\System.Reactive.*" />
+		<file src="Socket.CrossPlatform\SocketLite.PCL.UWP\bin\Release\*.xml" target="lib\uap10.0" exclude="**\System.Reactive.*" />
+
+		<!--.NET -->
+		<file src="Foundation\SocketLite.NET\bin\Release\*.dll" target="lib\net45" exclude="**\System.Reactive.*" />
+		<file src="Foundation\SocketLite.NET\bin\Release\*.pdb" target="lib\net45" exclude="**\System.Reactive.*" />
+		<file src="Foundation\SocketLite.NET\bin\Release\*.xml" target="lib\net45" exclude="**\System.Reactive.*" />
+
+		<!--Windows 8.x & Windows Phone 81-->
+		<file src="Foundation\SocketLite.WinRT\bin\Release\*.dll" target="lib\portable-net451+netcore451+wpa81" exclude="**\System.Reactive.*" />
+		<file src="Foundation\SocketLite.WinRT\bin\Release\*.pdb" target="lib\portable-net451+netcore451+wpa81" exclude="**\System.Reactive.*" />
+		<file src="Foundation\SocketLite.WinRT\bin\Release\*.xml" target="lib\portable-net451+netcore451+wpa81" exclude="**\System.Reactive.*" />
+		
+		<!--Default-->
+		<file src="SocketLite.PCL\bin\Release\*.dll" target="lib\portable-net45+netcore45+wpa81" exclude="**\System.Reactive.*" />
+		<file src="SocketLite.PCL\bin\Release\*.pdb" target="lib\portable-net45+netcore45+wpa81" exclude="**\System.Reactive.*" />
+		<file src="SocketLite.PCL\bin\Release\*.xml" target="lib\portable-net45+netcore45+wpa81" exclude="**\System.Reactive.*" />
   </files>
 </package>
