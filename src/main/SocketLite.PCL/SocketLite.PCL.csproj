@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="ISocketLite.PCL\ISocketLite.PCL.csproj">
+    <ProjectReference Include="..\ISocketLite.PCL\ISocketLite.PCL.csproj">
       <Project>{1752265e-ffab-4a20-b3f7-83789cb8b125}</Project>
       <Name>ISocketLite.PCL</Name>
     </ProjectReference>

@@ -55,7 +55,9 @@ namespace SocketLite.Services
             return tcpClient;
         }
 
+#pragma warning disable 1998
         public async Task StartListeningAsync(
+#pragma warning restore 1998
             int port, 
             ICommunicationInterface listenOn = null,
             bool allowMultipleBindToSamePort = false)

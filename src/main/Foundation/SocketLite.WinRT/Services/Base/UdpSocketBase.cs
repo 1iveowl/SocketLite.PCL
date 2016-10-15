@@ -88,7 +88,7 @@ namespace SocketLite.Services.Base
             SubsribeToMessages();
         }
 
-        protected void InitializeUdpSocket()
+        protected new void InitializeUdpSocket()
         {
             DatagramSocket = new DatagramSocket();
             //SubsribeToMessages();

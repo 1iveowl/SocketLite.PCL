@@ -73,7 +73,7 @@ namespace SocketLite.Helper
         {
             var advancedAdapterList = new List<AdvancedAdapterInfo>();
 
-            long structSize = SizeOf(typeof(IP_ADAPTER_INFO));
+            long structSize = SizeOf<IP_ADAPTER_INFO>();
 
             var pArray = AllocHGlobal(new IntPtr(structSize));
 
