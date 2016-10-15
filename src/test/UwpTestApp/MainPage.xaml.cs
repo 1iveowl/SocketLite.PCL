@@ -29,8 +29,8 @@ namespace UwpTestApp
         public MainPage()
         {
             this.InitializeComponent();
-            //StartTest();
-            StartTlsClient();
+            StartTest();
+            //StartTlsClient();
         }
 
         private async void StartTlsClient()
@@ -70,10 +70,6 @@ namespace UwpTestApp
             var tcpListenerSubscribe = StartTcpListener(tcpListener);
 
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
-
-            
-
-
 
             await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
 
