@@ -1,5 +1,5 @@
 #SocketLite.PCL
-
+[![NuGet](https://img.shields.io/badge/nuget-3.0.10-brightgreen.svg)](https://www.nuget.org/packages/SocketLite.PCL/)
 ### Supports Xamarin Forms on Windows 10/UWP, iOS and Andriod
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
