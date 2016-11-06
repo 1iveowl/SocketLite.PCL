@@ -3,8 +3,8 @@
   <metadata>
     <id>SocketLite.PCL</id>
     <version>0</version>
-    <title>Socket Lite - Xamarin PCL</title>
-    <authors>Jasper H. Bojsen (based on socket-for.pcl by Ryan Davis)</authors>
+    <title>Socket Lite - Xamarin .NET Standard Library</title>
+    <authors>Jasper H. Bojsen (builds on socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
     <licenseUrl>https://github.com/1iveowl/SocketLite.PCL/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/1iveowl/SocketLite.PCL</projectUrl>
@@ -12,6 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
     <releaseNotes>
+Updated to Rx 3.1.0
 Moved from to .NET Standard 1.2 for better compatibility. 
 Changed Android Target Framework from 7.0 (Nougat) to 6.0 (Marshmallow) for better compatibility. 
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
@@ -20,11 +21,11 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <dependencies>
 
         <group targetFramework="portable-net45+netcore45">
-          <dependency id="System.Reactive" version="3.0.0" />
+          <dependency id="System.Reactive" version="3.1.0" />
         </group>
 
         <group targetFramework="uap10.0">
-          <dependency id="System.Reactive" version="3.0.0" />
+          <dependency id="System.Reactive" version="3.1.0" />
           <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
       </group>
     </dependencies>
