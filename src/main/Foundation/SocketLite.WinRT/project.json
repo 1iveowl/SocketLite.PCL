@@ -1,9 +1,9 @@
-{
+﻿{
   "supports": {},
   "dependencies": {
-    "System.Reactive": "3.0.0"
+    "System.Reactive": "3.1.0"
   },
   "frameworks": {
-    ".NETPortable,Version=v4.6,Profile=Profile32": {}
+    ".NETCore,Version=v4.5.1": {}
   }
 }

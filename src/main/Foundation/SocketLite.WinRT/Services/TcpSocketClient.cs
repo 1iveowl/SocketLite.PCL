@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using ISocketLite.PCL.Interface;
+using ISocketLite.PCL.Model;
 using SocketLite.Services.Base;
 
 namespace SocketLite.Services
@@ -43,15 +44,38 @@ namespace SocketLite.Services
             string service, 
             bool secure = false, 
             CancellationToken cancellationToken = default(CancellationToken), 
-            bool ignoreServerCertificateErrors = false)
+            bool ignoreServerCertificateErrors = false,
+            TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
             var hostName = new HostName(address);
             var remoteServiceName = service;
-            var socketProtectionLevel = secure ? SocketProtectionLevel.Tls10 : SocketProtectionLevel.PlainSocket;
+
+            var tlsProtocol = SocketProtectionLevel.PlainSocket;
+
+            if (secure)
+            {
+                switch (tlsProtocolVersion)
+                {
+                    case TlsProtocolVersion.Tls10:
+                        tlsProtocol = SocketProtectionLevel.Tls10;
+                        break;
+                    case TlsProtocolVersion.Tls11:
+                        tlsProtocol = SocketProtectionLevel.Tls11;
+                        break;
+                    case TlsProtocolVersion.Tls12:
+                        tlsProtocol = SocketProtectionLevel.Tls12;
+                        break;
+                    case TlsProtocolVersion.None:
+                        tlsProtocol = SocketProtectionLevel.PlainSocket;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(tlsProtocolVersion), tlsProtocolVersion, null);
+                }
+            }
 
             try
             {
-                await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+                await Socket.ConnectAsync(hostName, remoteServiceName, tlsProtocol);
             }
             catch (Exception ex)
             {
@@ -67,7 +91,7 @@ namespace SocketLite.Services
                     //Try again
                     try
                     {
-                        await Socket.ConnectAsync(hostName, remoteServiceName, socketProtectionLevel);
+                        await Socket.ConnectAsync(hostName, remoteServiceName, tlsProtocol);
                     }
                     catch (Exception retryEx)
                     {
@@ -79,13 +103,12 @@ namespace SocketLite.Services
                 {
                     throw ex;
                 }
-                
             }
         }
 
         public void Disconnect()
         {
-            Socket.Dispose();
+            Socket?.Dispose();
             Socket = new StreamSocket();
         }
 

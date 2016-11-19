@@ -88,11 +88,11 @@ namespace SocketLite.Services.Base
             SubsribeToMessages();
         }
 
-        protected void InitializeUdpSocket()
-        {
-            DatagramSocket = new DatagramSocket();
-            //SubsribeToMessages();
-        }
+        //protected void InitializeUdpSocket()
+        //{
+        //    DatagramSocket = new DatagramSocket();
+        //    //SubsribeToMessages();
+        //}
 
         private void SubsribeToMessages()
         {
@@ -110,8 +110,8 @@ namespace SocketLite.Services.Base
 
         public void Dispose()
         {
-            _messageSubscribe.Dispose();
-            DatagramSocket.Dispose();
+            _messageSubscribe?.Dispose();
+            DatagramSocket?.Dispose();
         }
     }
 }

@@ -55,7 +55,10 @@ namespace SocketLite.Services
             return tcpClient;
         }
 
+        #pragma warning disable 1998
         public async Task StartListeningAsync(
+        #pragma warning restore 1998 
+
             int port, 
             ICommunicationInterface listenOn = null,
             bool allowMultipleBindToSamePort = false)
@@ -106,9 +109,9 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-            _tcpClientSubscribe.Dispose();
-            _tcpListener.Stop();
-            _listenCanceller.Cancel();
+            _tcpClientSubscribe?.Dispose();
+            _tcpListener?.Stop();
+            _listenCanceller?.Cancel();
         }
     }
 }

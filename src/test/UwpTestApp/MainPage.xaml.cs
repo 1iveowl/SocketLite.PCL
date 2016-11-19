@@ -39,11 +39,11 @@ namespace UwpTestApp
             var tcpClient = new SocketLite.Services.TcpSocketClient();
             try
             {
-                await tcpClient.ConnectAsync("abc.123.test", "8088", secure: true, ignoreServerCertificateErrors:true);
+                await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", secure: true, ignoreServerCertificateErrors:true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -70,10 +70,6 @@ namespace UwpTestApp
             var tcpListenerSubscribe = StartTcpListener(tcpListener);
 
             await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
-
-            
-
-
 
             await udpMulticastListener.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort: true);
 

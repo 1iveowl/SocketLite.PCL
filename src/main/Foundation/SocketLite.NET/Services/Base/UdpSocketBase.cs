@@ -81,9 +81,9 @@ namespace SocketLite.Services.Base
 
         public void Dispose()
         {
-            MessageConcellationTokenSource.Cancel();
-            BackingUdpClient.Close();
-            MessageSubject.OnCompleted();
+            MessageConcellationTokenSource?.Cancel();
+            BackingUdpClient?.Close();
+            MessageSubject?.OnCompleted();
         }
     }
 }

@@ -43,6 +43,16 @@ namespace SocketLite.Services
 
             _streamSocketListener = new StreamSocketListener();
 
+            _subscription = ObservableTcpSocketConnectionsFromEvents.Subscribe(
+                client =>
+                {
+                    _subjectTcpSocket.OnNext(client);
+                },
+                ex =>
+                {
+                    _subjectTcpSocket.OnError(ex);
+                });
+
             var localServiceName = port == 0 ? "" : port.ToString();
 
             var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
@@ -57,22 +67,12 @@ namespace SocketLite.Services
             {
                 await _streamSocketListener.BindServiceNameAsync(localServiceName);
             }
-
-            _subscription = ObservableTcpSocketConnectionsFromEvents.Subscribe(
-                client =>
-                {
-                    _subjectTcpSocket.OnNext(client);
-                },
-                ex =>
-                {
-                    _subjectTcpSocket.OnError(ex);
-                });
         }
 
         public void StopListening()
         {
-           _subscription.Dispose();
-            _streamSocketListener.Dispose();
+           _subscription?.Dispose();
+            _streamSocketListener?.Dispose();
         }
 
         public void Dispose()

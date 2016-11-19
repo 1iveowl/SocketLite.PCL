@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SocketLite.Model;
 using SocketLite.Services;
 
 namespace SocketListe.Console.NET.Tests
@@ -21,9 +12,9 @@ namespace SocketListe.Console.NET.Tests
 
             //var allComm = comm.GetAllInterfaces();
 
-            //();
-            StartTcpListener();
-           
+            //StartTcpListener();
+            StartTcpClient();
+
             //StartUdpMulticastClient();
 
             System.Console.ReadKey();
@@ -32,7 +23,7 @@ namespace SocketListe.Console.NET.Tests
         private static async void StartTcpClient()
         {
             var tcpClient = new TcpSocketClient();
-            await tcpClient.ConnectAsync("spc.1iveowl.dk", "8088", true, CancellationToken.None, ignoreServerCertificateErrors:true);
+            await tcpClient.ConnectAsync("www.abc.dk", "8088", secure: true, ignoreServerCertificateErrors: true);
 
             var helloWorld = "Hello World!";
 
