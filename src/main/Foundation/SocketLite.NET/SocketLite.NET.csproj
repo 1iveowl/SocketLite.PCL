@@ -58,8 +58,8 @@
       <HintPath>..\..\packages\System.Reactive.Windows.Threading.3.1.0\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows" />
@@ -92,10 +92,6 @@
     <ProjectReference Include="..\..\ISocketLite.PCL\ISocketLite.PCL.csproj">
       <Project>{1752265e-ffab-4a20-b3f7-83789cb8b125}</Project>
       <Name>ISocketLite.PCL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SocketLite.PCL\SocketLite.PCL.csproj">
-      <Project>{eee36e05-dcbc-4b35-b47b-94d0e9e9fa0f}</Project>
-      <Name>SocketLite.PCL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

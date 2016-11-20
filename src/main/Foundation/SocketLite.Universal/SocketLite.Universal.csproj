@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{38FBD190-69AD-4BDB-B342-6EC2E29C79E5}</ProjectGuid>
+    <ProjectGuid>{FFF1A8D3-777A-445D-9442-292AD5AC4175}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocketLite</RootNamespace>
@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -107,50 +107,22 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Extensions\NetworkExtensions.cs">
-      <Link>Extensions\NetworkExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Helper\AdapterInfo.cs">
-      <Link>Helper\AdapterInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Helper\AdvancedAdapterInfo.cs">
-      <Link>Helper\AdvancedAdapterInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Model\CommunicationInterface.cs">
-      <Link>Model\CommunicationInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Model\UdpMessage.cs">
-      <Link>Model\UdpMessage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\Base\CommonSocketBase.cs">
-      <Link>Services\Base\CommonSocketBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\Base\TcpSocketBase.cs">
-      <Link>Services\Base\TcpSocketBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\Base\UdpSendBase.cs">
-      <Link>Services\Base\UdpSendBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\Base\UdpSocketBase.cs">
-      <Link>Services\Base\UdpSocketBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\TcpSocketClient.cs">
-      <Link>Services\TcpSocketClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\TcpSocketListener.cs">
-      <Link>Services\TcpSocketListener.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\UdpSocketClient.cs">
-      <Link>Services\UdpSocketClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\UdpSocketMulticastClient.cs">
-      <Link>Services\UdpSocketMulticastClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Foundation\SocketLite.Universal\Services\UdpSocketReceiver.cs">
-      <Link>Services\UdpSocketReceiver.cs</Link>
-    </Compile>
+    <Compile Include="Extensions\NetworkExtensions.cs" />
+    <Compile Include="Helper\AdapterInfo.cs" />
+    <Compile Include="Helper\AdvancedAdapterInfo.cs" />
+    <Compile Include="Model\CommunicationInterface.cs" />
+    <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\SocketLite.PCL.UWP.rd.xml" />
+    <Compile Include="Services\Base\CommonSocketBase.cs" />
+    <Compile Include="Services\Base\TcpSocketBase.cs" />
+    <Compile Include="Services\Base\UdpSendBase.cs" />
+    <Compile Include="Services\Base\UdpSocketBase.cs" />
+    <Compile Include="Services\TcpSocketClient.cs" />
+    <Compile Include="Services\TcpSocketListener.cs" />
+    <Compile Include="Services\UdpSocketClient.cs" />
+    <Compile Include="Services\UdpSocketMulticastClient.cs" />
+    <Compile Include="Services\UdpSocketReceiver.cs" />
+    <EmbeddedResource Include="Properties\SocketLite.Universal.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ISocketLite.PCL\ISocketLite.PCL.csproj">
@@ -158,11 +130,8 @@
       <Name>ISocketLite.PCL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Partial\" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
+    <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
