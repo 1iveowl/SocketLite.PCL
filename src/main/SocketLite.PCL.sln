@@ -18,12 +18,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.PCL.UWP", "Socket.CrossPlatform\SocketLite.PCL.UWP\SocketLite.PCL.UWP.csproj", "{38FBD190-69AD-4BDB-B342-6EC2E29C79E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{7AF809C9-AA3D-4766-B531-173470761DB3}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\LICENSE = ..\..\LICENSE
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{65D3A474-2186-4ED4-BCBE-73866E6C67FE}"
 	ProjectSection(SolutionItems) = preProject
-		build.ps1 = build.ps1
-		publish.ps1 = publish.ps1
-		SocketLite.PCL.nuspec = SocketLite.PCL.nuspec
+		..\build\build.ps1 = ..\build\build.ps1
+		..\build\publish.ps1 = ..\build\publish.ps1
+		..\build\publishLocal.ps1 = ..\build\publishLocal.ps1
+		..\build\SocketLite.PCL.nuspec = ..\build\SocketLite.PCL.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.NET", "Foundation\SocketLite.NET\SocketLite.NET.csproj", "{4A312813-657F-4911-96DC-A46CBF7CB22A}"
