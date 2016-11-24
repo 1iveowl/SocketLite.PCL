@@ -1,7 +1,9 @@
-# Important note
+# Important Note!
 This is a legacy code-base. The code base moved to a new repo: [SocketLite](https://github.com/1iveowl/SocketLite)
 
-#SocketLite.PCL
+Proceed with caution...
+
+#SocketLite.PCL (Legacy Code Base)
 [![NuGet](https://img.shields.io/badge/nuget-3.2.1_(.Net_Standard_1.2)-brightgreen.svg)](https://www.nuget.org/packages/SocketLite.PCL/)
 [![NuGet](https://img.shields.io/badge/nuget-2.0.30_(Profile_111)-yellow.svg)](https://www.nuget.org/packages/SocketLite.PCL/2.0.20)
 ### Supports Xamarin Forms on Windows 10/UWP, iOS, Andriod and .NET Core
